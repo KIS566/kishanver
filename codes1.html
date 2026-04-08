@@ -14,6 +14,34 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     
+    <!-- Firebase SDK (सिर्फ Authentication के लिए) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+        // Firebase Configuration (REPLACE WITH YOUR REAL CONFIG)
+       const firebaseConfig = {
+  apiKey: "AIzaSyBbpW6Ap7g9dTPL65CKCUWsjj8Czk9U0SY",
+  authDomain: "codeshalabykmfl-ac806.firebaseapp.com",
+  databaseURL: "https://codeshalabykmfl-ac806-default-rtdb.firebaseio.com",
+  projectId: "codeshalabykmfl-ac806",
+  storageBucket: "codeshalabykmfl-ac806.firebasestorage.app",
+  messagingSenderId: "677336522082",
+  appId: "1:677336522082:web:dbbaf73822007026e6603b"
+};
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        window.auth = auth;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.signOut = signOut;
+        window.onAuthStateChanged = onAuthStateChanged;
+        
+        window.dispatchEvent(new Event('firebase-ready'));
+    </script>
+    
     <style>
         :root {
             --neon: #00ffc6;
@@ -300,12 +328,6 @@
             margin-bottom: 20px;
         }
         
-        .admin-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            text-decoration: none;
-        }
-        
         .notification {
             position: fixed;
             bottom: 20px;
@@ -473,12 +495,6 @@
         
         .error-message {
             color: #ff5555;
-            margin-bottom: 15px;
-            display: none;
-        }
-        
-        .success-message {
-            color: var(--neon);
             margin-bottom: 15px;
             display: none;
         }
@@ -825,21 +841,24 @@
             flex-wrap: wrap;
             margin-top: 20px;
         }
+        
+        .user-email {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            color: var(--neon);
+        }
     </style>
 </head>
 <body data-theme="dark">
 
-<!-- Background video -->
 <video autoplay loop muted id="bgVid" class="bg-video">
     <source src="https://raw.githubusercontent.com/KIS566/hvideo/main/VN20251002_162055.mp4" type="video/mp4">
 </video>
 
-<!-- Offline Indicator -->
 <div class="offline-indicator" id="offlineIndicator">
     <i class="fas fa-wifi-slash"></i> Offline Mode
 </div>
 
-<!-- PWA Install Button -->
 <button class="install-btn" id="installBtn">
     <i class="fas fa-download"></i> Install App
 </button>
@@ -854,24 +873,21 @@
         <button class="user-btn" id="userBtn">👤</button>
     </div>
     
-    <!-- User Menu -->
     <div class="user-menu" id="userMenu">
         <div class="user-menu-item" id="loginBtn">Login</div>
         <div class="user-menu-item" id="registerBtn">Register</div>
-        <div class="user-menu-item" id="favoritesBtn" style="display:none;">My Favorites</div>
         <div class="user-menu-item" id="logoutBtn" style="display:none;">Logout</div>
+        <div id="userEmailDisplay" class="user-email" style="margin-top: 8px; font-size: 0.7rem;"></div>
     </div>
 </header>
 
 <div class="wrap">
-    <!-- Sync Info -->
     <div class="sync-info" id="syncInfo">
         <span class="sync-status sync-online" id="syncStatus"></span>
-        <span id="syncText">Real-time Sync: Active</span>
+        <span id="syncText">Google Sheets Sync: Active</span>
         <span id="lastSync" style="font-size: 0.8rem; margin-left: 10px;"></span>
     </div>
 
-    <!-- Navigation Tabs -->
     <div class="filter-buttons" id="navTabs">
         <button class="filter-btn active" data-tab="view">👁️ View Codes</button>
         <button class="filter-btn" data-tab="upload">🚀 Upload Code</button>
@@ -879,9 +895,7 @@
         <button class="filter-btn" data-tab="export">📤 Export</button>
     </div>
 
-    <!-- View Section (Default) -->
     <div id="viewSection">
-        <!-- Stats Highlight -->
         <div class="stats-highlight" id="statsHighlight">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
@@ -896,7 +910,6 @@
             </div>
         </div>
 
-        <!-- Stats -->
         <div class="stats" id="statsContainer">
             <div class="stat-card">
                 <div class="stat-number" id="totalCodes">0</div>
@@ -916,7 +929,6 @@
             </div>
         </div>
         
-        <!-- Search and Filter Section -->
         <div class="search-bar" style="position: relative;">
             <input type="text" class="search-input" id="searchInput" placeholder="Search codes by title, description...">
             <button class="btn" onclick="clearSearch()">Clear</button>
@@ -929,18 +941,15 @@
             <button class="filter-btn" data-category="javascript">JavaScript</button>
         </div>
         
-        <!-- Tags Cloud -->
         <div class="tags-container" id="tagsCloud" style="margin-bottom: 20px; display: none;"></div>
         
-        <!-- Codes Container -->
         <div id="codesContainer">
             <div class="loading">
-                <i class="fas fa-spinner fa-spin"></i> Loading codes...
+                <i class="fas fa-spinner fa-spin"></i> Loading codes from Google Sheets...
             </div>
         </div>
     </div>
 
-    <!-- Upload Section -->
     <div id="uploadSection" style="display: none;">
         <div class="upload-container">
             <h2 class="code-title" style="text-align:center; text-shadow:0 0 10px cyan;">🚀 Upload Code</h2>
@@ -960,14 +969,12 @@
         </div>
     </div>
 
-    <!-- Admin Panel Section -->
     <div id="adminSection" style="display: none;">
         <div class="admin-panel-container">
             <h2 class="code-title" style="text-align:center; margin-bottom: 30px;">
                 <i class="fas fa-crown"></i> Admin Dashboard
             </h2>
             
-            <!-- Admin Stats -->
             <div class="admin-stats">
                 <div class="stat-card">
                     <div class="stat-number" id="adminTotalCodes">0</div>
@@ -987,7 +994,6 @@
                 </div>
             </div>
             
-            <!-- Admin Actions -->
             <div class="panel" style="margin-bottom: 20px;">
                 <h3 class="code-title"><i class="fas fa-tools"></i> Admin Tools</h3>
                 <div class="admin-actions">
@@ -1009,7 +1015,6 @@
                 </div>
             </div>
             
-            <!-- Quick Stats -->
             <div class="panel">
                 <h3 class="code-title"><i class="fas fa-chart-bar"></i> Quick Stats</h3>
                 <div style="padding: 15px;">
@@ -1019,15 +1024,11 @@
                     <div style="margin-bottom: 10px;">
                         <strong>Status:</strong> <span id="adminStatus" style="color: var(--neon);">🟢 Online</span>
                     </div>
-                    <div style="margin-bottom: 10px;">
-                        <strong></strong> <code></code>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Export Section -->
     <div id="exportSection" style="display: none;">
         <div class="panel">
             <h2 class="code-title"><i class="fas fa-file-export"></i> Export Codes</h2>
@@ -1049,7 +1050,6 @@
         </div>
     </div>
     
-    <!-- Back to Home -->
     <div class="back-to-home-container">
         <a href="https://kis566.github.io/KMFL-K/#home" class="back-to-home-btn">
             <i class="fas fa-arrow-left"></i>
@@ -1058,7 +1058,6 @@
     </div>
 </div>
 
-<!-- Password Modal -->
 <div class="modal-overlay" id="passwordModal">
     <div class="modal-content">
         <h2 class="modal-title">Admin Access Required</h2>
@@ -1071,12 +1070,11 @@
             <button class="btn" onclick="closeModal()">Cancel</button>
         </div>
         <p style="margin-top: 15px; font-size: 0.8rem; color: var(--text-secondary);">
-            Password: <code>ILU</code>
+            Password: <code>Password is hidden for security reasons. Please contact the administrator.</code>
         </p>
     </div>
 </div>
 
-<!-- Add Code Modal -->
 <div class="modal-overlay" id="addCodeModal">
     <div class="modal-content" style="max-width: 600px;">
         <h2 class="modal-title">Add New Code</h2>
@@ -1105,140 +1103,71 @@
     </div>
 </div>
 
-<!-- Notification -->
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal">
+    <div class="modal-content">
+        <h2 class="modal-title">Login</h2>
+        <div class="error-message" id="loginError"></div>
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="loginEmail" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" id="loginPassword" placeholder="••••••">
+        </div>
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="performLogin()">Login</button>
+            <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal-overlay" id="registerModal">
+    <div class="modal-content">
+        <h2 class="modal-title">Register</h2>
+        <div class="error-message" id="registerError"></div>
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="registerEmail" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" id="registerPassword" placeholder="min 6 characters">
+        </div>
+        <div class="modal-buttons">
+            <button class="btn btn-primary" onclick="performRegister()">Register</button>
+            <button class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
 <div class="notification" id="notification"></div>
 
 <script>
+    // ==================== GOOGLE SHEETS CONFIGURATION ====================
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbzuJjVbB-ngHk6VWBuIGVetSFTuMOTFZBjAppV3Dy8CKOq8dj6eP-M0xviLPSPJObxH/exec";
+    const ADMIN_PASSWORD = "ILU";
+    
     // Global variables
     let allCodes = [];
     let currentFilter = 'all';
     let currentSearch = '';
-    const ADMIN_PASSWORD = "ILU_KMFL";
-    const SHEET_URL = "https://script.google.com/macros/s/AKfycbzuJjVbB-ngHk6VWBuIGVetSFTuMOTFZBjAppV3Dy8CKOq8dj6eP-M0xviLPSPJObxH/exec";
-
+    let currentUser = null;
+    
     // DOM elements
-    const navTabs = document.getElementById("navTabs");
-    const viewSection = document.getElementById("viewSection");
-    const uploadSection = document.getElementById("uploadSection");
-    const adminSection = document.getElementById("adminSection");
-    const exportSection = document.getElementById("exportSection");
+    const notification = document.getElementById("notification");
     const codesContainer = document.getElementById("codesContainer");
     const searchInput = document.getElementById("searchInput");
     const filterButtons = document.getElementById("filterButtons");
-    const notification = document.getElementById("notification");
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-        // Load initial data
-        loadCodesFromSheet();
-        
-        // Set theme from localStorage
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.body.setAttribute('data-theme', savedTheme);
-        document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
-        
-        // Navigation tabs
-        navTabs.addEventListener('click', function(e) {
-            if (e.target.classList.contains('filter-btn') && e.target.hasAttribute('data-tab')) {
-                const tab = e.target.getAttribute('data-tab');
-                showTab(tab);
-                
-                // Update active tab
-                document.querySelectorAll('.filter-btn[data-tab]').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                e.target.classList.add('active');
-                
-                // Show password for admin tab
-                if (tab === 'admin') {
-                    showPasswordModal();
-                }
-            }
-        });
-        
-        // Filter buttons
-        filterButtons.addEventListener('click', function(e) {
-            if (e.target.classList.contains('filter-btn') && e.target.hasAttribute('data-category')) {
-                document.querySelectorAll('#filterButtons .filter-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                e.target.classList.add('active');
-                currentFilter = e.target.getAttribute('data-category');
-                filterAndDisplayCodes();
-            }
-        });
-        
-        // Search functionality
-        searchInput.addEventListener('input', function() {
-            currentSearch = this.value.toLowerCase();
-            filterAndDisplayCodes();
-        });
-        
-        // Theme toggle
-        document.getElementById('themeBtn').addEventListener('click', function() {
-            const currentTheme = document.body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.body.setAttribute('data-theme', newTheme);
-            this.textContent = newTheme === 'dark' ? '🌙' : '☀️';
-            localStorage.setItem('theme', newTheme);
-        });
-        
-        // Sound toggle
-        document.getElementById('soundBtn').addEventListener('click', function() {
-            const video = document.getElementById('bgVid');
-            video.muted = !video.muted;
-            this.textContent = video.muted ? "🔇" : "🔊";
-        });
-        
-        // User menu
-        document.getElementById('userBtn').addEventListener('click', function() {
-            document.getElementById('userMenu').style.display = 
-                document.getElementById('userMenu').style.display === 'block' ? 'none' : 'block';
-        });
-        
-        // Close modals on outside click
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('modal-overlay')) {
-                closeModal();
-            }
-        });
-        
-        // Auto-detect tags in upload
-        document.getElementById('uploadCode')?.addEventListener('input', function() {
-            detectTags(this.value);
-        });
-    });
-
-    // ==================== CORE FUNCTIONS ====================
+    const navTabs = document.getElementById("navTabs");
     
-    function showTab(tabName) {
-        // Hide all sections
-        viewSection.style.display = 'none';
-        uploadSection.style.display = 'none';
-        adminSection.style.display = 'none';
-        exportSection.style.display = 'none';
-        
-        // Show selected section
-        switch(tabName) {
-            case 'upload':
-                uploadSection.style.display = 'block';
-                break;
-            case 'admin':
-                adminSection.style.display = 'block';
-                break;
-            case 'export':
-                exportSection.style.display = 'block';
-                break;
-            case 'view':
-            default:
-                viewSection.style.display = 'block';
-                break;
-        }
-    }
+    // ==================== GOOGLE SHEETS FUNCTIONS ====================
     
     async function loadCodesFromSheet(forceRefresh = false) {
         try {
-            codesContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading codes...</div>';
+            codesContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading codes from Google Sheets...</div>';
             
             const timestamp = new Date().getTime();
             const url = `${SHEET_URL}?timestamp=${timestamp}`;
@@ -1255,23 +1184,152 @@
             updateStats();
             
         } catch (error) {
-            console.error('Error loading from sheet:', error);
-            // Fallback to cached data
+            console.error('Error loading from Google Sheets:', error);
             const cachedCodes = localStorage.getItem('codesData');
             if (cachedCodes) {
                 allCodes = JSON.parse(cachedCodes);
                 filterAndDisplayCodes();
-                showNotification('⚠️ Using cached data', 'info');
+                showNotification('⚠️ Using cached data (Offline Mode)', 'info');
             } else {
                 showNoDataMessage();
             }
         }
     }
     
+    async function uploadCodeToSheet(title, description, code) {
+        const codeData = {
+            title: title,
+            desc: description,
+            code: code,
+            date: new Date().toISOString().split('T')[0],
+            userId: currentUser ? currentUser.uid : 'anonymous',
+            userEmail: currentUser ? currentUser.email : 'anonymous'
+        };
+        
+        await fetch(SHEET_URL, {
+            method: "POST",
+            body: JSON.stringify(codeData),
+            headers: { "Content-Type": "application/json" },
+            mode: "no-cors"
+        });
+    }
+    
+    // ==================== AUTHENTICATION FUNCTIONS ====================
+    
+    window.addEventListener('firebase-ready', () => {
+        onAuthStateChanged(window.auth, (user) => {
+            currentUser = user;
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userEmailDisplay = document.getElementById('userEmailDisplay');
+            
+            if (user) {
+                loginBtn.style.display = 'none';
+                registerBtn.style.display = 'none';
+                logoutBtn.style.display = 'block';
+                userEmailDisplay.textContent = user.email;
+                showNotification(`Welcome ${user.email}`, 'success');
+            } else {
+                loginBtn.style.display = 'block';
+                registerBtn.style.display = 'block';
+                logoutBtn.style.display = 'none';
+                userEmailDisplay.textContent = '';
+            }
+            updateUploadSectionVisibility();
+        });
+    });
+    
+    function updateUploadSectionVisibility() {
+        const uploadTab = document.querySelector('.filter-btn[data-tab="upload"]');
+        if (uploadTab && uploadTab.classList.contains('active') && !currentUser) {
+            showNotification('Please login to upload codes', 'error');
+            document.querySelector('.filter-btn[data-tab="view"]').click();
+        }
+    }
+    
+    window.performLogin = async () => {
+        const email = document.getElementById('loginEmail').value;
+        const pass = document.getElementById('loginPassword').value;
+        try {
+            await signInWithEmailAndPassword(window.auth, email, pass);
+            closeModal();
+            showNotification('Login successful!');
+        } catch(e) {
+            document.getElementById('loginError').style.display = 'block';
+            document.getElementById('loginError').textContent = e.message;
+        }
+    };
+    
+    window.performRegister = async () => {
+        const email = document.getElementById('registerEmail').value;
+        const pass = document.getElementById('registerPassword').value;
+        if (pass.length < 6) {
+            showNotification('Password must be at least 6 characters', 'error');
+            return;
+        }
+        try {
+            await createUserWithEmailAndPassword(window.auth, email, pass);
+            closeModal();
+            showNotification('Registration successful! Please login', 'success');
+        } catch(e) {
+            document.getElementById('registerError').style.display = 'block';
+            document.getElementById('registerError').textContent = e.message;
+        }
+    };
+    
+    // ==================== UPLOAD FUNCTION (सिर्फ logged-in users) ====================
+    
+    window.uploadCode = async function() {
+        if (!currentUser) {
+            showNotification('❌ Please login to upload codes!', 'error');
+            return;
+        }
+        
+        const title = document.getElementById("uploadTitle").value.trim();
+        const desc = document.getElementById("uploadDesc").value.trim();
+        const code = document.getElementById("uploadCode").value.trim();
+        const msg = document.getElementById("uploadMsg");
+
+        if (!title || !code) {
+            showNotification("Title and code are required!", 'error');
+            return;
+        }
+
+        msg.innerText = "Uploading to Google Sheets...";
+        msg.style.color = "#ff9800";
+
+        try {
+            await uploadCodeToSheet(title, desc, code);
+            
+            msg.innerText = "✅ Code Uploaded Successfully!";
+            msg.style.color = "#00ff00";
+            
+            document.getElementById("uploadTitle").value = "";
+            document.getElementById("uploadDesc").value = "";
+            document.getElementById("uploadCode").value = "";
+            document.getElementById("autoTags").innerHTML = "";
+            
+            showNotification('Code uploaded to Google Sheets!');
+            
+            await loadCodesFromSheet(true);
+            showTab('view');
+            document.querySelector('.filter-btn[data-tab="view"]').click();
+            
+            setTimeout(() => { msg.innerText = ""; }, 3000);
+            
+        } catch (e) {
+            msg.innerText = "Error: " + e.message;
+            msg.style.color = "#ff4444";
+            showNotification(e.message, 'error');
+        }
+    };
+    
+    // ==================== DISPLAY FUNCTIONS ====================
+    
     function filterAndDisplayCodes() {
         let filteredCodes = allCodes;
         
-        // Apply category filter
         if (currentFilter !== 'all') {
             filteredCodes = filteredCodes.filter(code => {
                 const content = (code.Code || code.code || '').toLowerCase();
@@ -1282,7 +1340,6 @@
             });
         }
         
-        // Apply search filter
         if (currentSearch) {
             filteredCodes = filteredCodes.filter(code => {
                 const title = (code.Title || code.title || '').toLowerCase();
@@ -1320,13 +1377,11 @@
         }
         
         let html = '';
-        
         codes.forEach((code, index) => {
             const title = code.Title || code.title || 'Untitled Code';
             const description = code.Description || code.desc || 'No description';
             const codeContent = code.Code || code.code || '';
             const date = code.Date || new Date().toLocaleDateString();
-            const tags = extractTagsFromCode(codeContent);
             
             html += `
                 <section class="panel">
@@ -1342,12 +1397,6 @@
                             <i class="fas fa-file-code"></i> ${codeContent.length} chars
                         </div>
                     </div>
-                    
-                    ${tags.length > 0 ? `
-                    <div class="tags-container">
-                        ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
-                    ` : ''}
                     
                     <div class="code-description">${escapeHtml(description)}</div>
                     
@@ -1374,6 +1423,46 @@
         codesContainer.innerHTML = html;
     }
     
+    // ==================== CODE ACTIONS ====================
+    
+    window.runCode = function(index) {
+        const iframe = document.getElementById(`frame_${index}`);
+        const codeContent = allCodes[index].Code || allCodes[index].code || '';
+        
+        iframe.style.display = "block";
+        iframe.srcdoc = codeContent;
+        
+        document.querySelectorAll('.view-iframe').forEach((frame, i) => {
+            if (i !== index) frame.style.display = 'none';
+        });
+        
+        document.querySelectorAll('.view-source').forEach(source => {
+            source.style.display = 'none';
+        });
+    };
+    
+    window.viewSource = function(index) {
+        const pre = document.getElementById(`view_source_${index}`);
+        pre.style.display = pre.style.display === "block" ? "none" : "block";
+        
+        document.querySelectorAll('.view-source').forEach((source, i) => {
+            if (i !== index) source.style.display = 'none';
+        });
+        
+        document.querySelectorAll('.view-iframe').forEach(iframe => {
+            iframe.style.display = 'none';
+        });
+    };
+    
+    window.copyCode = function(index) {
+        const codeContent = allCodes[index].Code || allCodes[index].code || '';
+        navigator.clipboard.writeText(codeContent).then(() => {
+            showNotification('Code copied to clipboard!');
+        });
+    };
+    
+    // ==================== STATS FUNCTIONS ====================
+    
     function updateStats() {
         document.getElementById('totalCodes').textContent = allCodes.length;
         
@@ -1389,12 +1478,12 @@
         document.getElementById('jsCodes').textContent = jsCount;
     }
     
-    function refreshStats() {
+    window.refreshStats = function() {
         loadCodesFromSheet(true);
-        showNotification('Stats refreshed!');
-    }
+        showNotification('Stats refreshed from Google Sheets!');
+    };
     
-    function clearSearch() {
+    window.clearSearch = function() {
         searchInput.value = '';
         currentSearch = '';
         currentFilter = 'all';
@@ -1403,104 +1492,7 @@
         });
         document.querySelector('#filterButtons .filter-btn[data-category="all"]').classList.add('active');
         filterAndDisplayCodes();
-    }
-    
-    // ==================== CODE ACTIONS ====================
-    
-    function runCode(index) {
-        const iframe = document.getElementById(`frame_${index}`);
-        const codeContent = allCodes[index].Code || allCodes[index].code || '';
-        
-        iframe.style.display = "block";
-        iframe.srcdoc = codeContent;
-        
-        // Hide other iframes
-        document.querySelectorAll('.view-iframe').forEach((frame, i) => {
-            if (i !== index) frame.style.display = 'none';
-        });
-        
-        // Hide source views
-        document.querySelectorAll('.view-source').forEach(source => {
-            source.style.display = 'none';
-        });
-    }
-    
-    function viewSource(index) {
-        const pre = document.getElementById(`view_source_${index}`);
-        pre.style.display = pre.style.display === "block" ? "none" : "block";
-        
-        // Hide other source views
-        document.querySelectorAll('.view-source').forEach((source, i) => {
-            if (i !== index) source.style.display = 'none';
-        });
-        
-        // Hide iframes
-        document.querySelectorAll('.view-iframe').forEach(iframe => {
-            iframe.style.display = 'none';
-        });
-    }
-    
-    function copyCode(index) {
-        const codeContent = allCodes[index].Code || allCodes[index].code || '';
-        navigator.clipboard.writeText(codeContent).then(() => {
-            showNotification('Code copied to clipboard!');
-        });
-    }
-    
-    // ==================== UPLOAD FUNCTIONS ====================
-    
-    async function uploadCode() {
-        const title = document.getElementById("uploadTitle").value.trim();
-        const desc = document.getElementById("uploadDesc").value.trim();
-        const code = document.getElementById("uploadCode").value.trim();
-        const msg = document.getElementById("uploadMsg");
-
-        if (!title || !code) {
-            showNotification("Title and code are required!", 'error');
-            return;
-        }
-
-        msg.innerText = "Uploading...";
-        msg.style.color = "#ff9800";
-
-        try {
-            const codeData = {
-                title: title,
-                desc: desc,
-                code: code,
-                date: new Date().toISOString().split('T')[0]
-            };
-
-            await fetch(SHEET_URL, {
-                method: "POST",
-                body: JSON.stringify(codeData),
-                headers: { "Content-Type": "application/json" },
-                mode: "no-cors"
-            });
-
-            msg.innerText = "✅ Code Uploaded Successfully!";
-            msg.style.color = "#00ff00";
-            
-            // Clear form
-            document.getElementById("uploadTitle").value = "";
-            document.getElementById("uploadDesc").value = "";
-            document.getElementById("uploadCode").value = "";
-            document.getElementById("autoTags").innerHTML = "";
-            
-            showNotification('Code uploaded successfully!');
-            
-            // Reload codes
-            setTimeout(() => {
-                loadCodesFromSheet(true);
-                showTab('view');
-                document.querySelector('.filter-btn[data-tab="view"]').click();
-            }, 2000);
-            
-        } catch (e) {
-            msg.innerText = "Error: " + e.message;
-            msg.style.color = "#ff4444";
-        }
-    }
+    };
     
     // ==================== ADMIN FUNCTIONS ====================
     
@@ -1510,7 +1502,7 @@
         document.getElementById('errorMessage').style.display = 'none';
     }
     
-    function checkPassword() {
+    window.checkPassword = function() {
         const password = document.getElementById('passwordInput').value;
         
         if (password === ADMIN_PASSWORD) {
@@ -1523,17 +1515,14 @@
             document.getElementById('passwordInput').value = '';
             showNotification('Incorrect password!', 'error');
         }
-    }
+    };
     
-    function updateAdminStats() {
-        // Total codes
+    window.updateAdminStats = function() {
         document.getElementById('adminTotalCodes').textContent = allCodes.length;
         
-        // Users count
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        document.getElementById('adminUsers').textContent = users.length;
+        const cachedCodes = localStorage.getItem('codesData');
+        document.getElementById('adminCache').textContent = cachedCodes ? JSON.parse(cachedCodes).length : 0;
         
-        // Storage usage
         let totalStorage = 0;
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
@@ -1542,24 +1531,19 @@
         }
         document.getElementById('adminStorage').textContent = Math.round(totalStorage / 1024) + ' KB';
         
-        // Cached codes
-        const cachedCodes = JSON.parse(localStorage.getItem('codesData') || '[]');
-        document.getElementById('adminCache').textContent = cachedCodes.length;
-        
-        // Last sync
         const lastSyncTime = localStorage.getItem('lastSyncTimestamp');
         if (lastSyncTime) {
             const date = new Date(parseInt(lastSyncTime));
             document.getElementById('adminLastSync').textContent = date.toLocaleTimeString();
         }
-    }
+    };
     
-    function showAddCodeModal() {
+    window.showAddCodeModal = function() {
         document.getElementById('addCodeModal').style.display = 'flex';
         document.getElementById('newCodeTitle').focus();
-    }
+    };
     
-    async function addCodeViaAdmin() {
+    window.addCodeViaAdmin = async function() {
         const title = document.getElementById('newCodeTitle').value.trim();
         const desc = document.getElementById('newCodeDesc').value.trim();
         const code = document.getElementById('newCodeContent').value.trim();
@@ -1571,35 +1555,20 @@
         }
         
         try {
-            const codeData = {
-                title: title,
-                desc: desc,
-                code: code,
-                date: new Date().toISOString().split('T')[0],
-                addedBy: 'Admin'
-            };
-            
-            await fetch(SHEET_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(codeData),
-                mode: 'no-cors'
-            });
+            await uploadCodeToSheet(title, desc, code);
             
             document.getElementById('addCodeSuccess').textContent = 'Code added successfully!';
             document.getElementById('addCodeSuccess').style.display = 'block';
             document.getElementById('addCodeError').style.display = 'none';
             
-            // Clear form
             document.getElementById('newCodeTitle').value = '';
             document.getElementById('newCodeDesc').value = '';
             document.getElementById('newCodeContent').value = '';
             
             showNotification('Code added via Admin Panel!');
             
-            // Reload codes
-            setTimeout(() => {
-                loadCodesFromSheet(true);
+            setTimeout(async () => {
+                await loadCodesFromSheet(true);
                 closeModal();
             }, 2000);
             
@@ -1607,33 +1576,27 @@
             document.getElementById('addCodeError').textContent = 'Error: ' + error.message;
             document.getElementById('addCodeError').style.display = 'block';
         }
-    }
+    };
     
-    function manageUsers() {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        let userList = 'Registered Users:\n\n';
-        
-        if (users.length === 0) {
-            userList = 'No registered users found.';
+    window.manageUsers = function() {
+        if (currentUser) {
+            alert(`Logged in as: ${currentUser.email}\nUser ID: ${currentUser.uid}\n\nUser management is handled by Firebase Console.`);
         } else {
-            users.forEach((user, index) => {
-                userList += `${index + 1}. ${user.username} (${user.email})\n`;
-            });
+            alert('No user logged in. Please login to see user info.');
         }
-        
-        alert(userList);
-    }
+    };
     
-    function clearCache() {
-        if (confirm('Clear all cache?')) {
+    window.clearCache = function() {
+        if (confirm('Clear all cached data? This will not delete your Google Sheets data.')) {
             localStorage.removeItem('codesData');
             localStorage.removeItem('lastSyncTimestamp');
-            showNotification('Cache cleared!');
+            showNotification('Cache cleared! Reloading from Google Sheets...');
+            loadCodesFromSheet(true);
             updateAdminStats();
         }
-    }
+    };
     
-    function exportAllData() {
+    window.exportAllData = function() {
         const data = {
             codes: allCodes,
             exportDate: new Date().toISOString(),
@@ -1651,11 +1614,11 @@
         URL.revokeObjectURL(url);
         
         showNotification('Data exported!');
-    }
+    };
     
     // ==================== EXPORT FUNCTIONS ====================
     
-    function exportAsJSON() {
+    window.exportAsJSON = function() {
         const data = {
             app: "Kishan's Code Vault",
             version: "1.0",
@@ -1675,9 +1638,9 @@
         URL.revokeObjectURL(url);
         
         showNotification('Exported as JSON!');
-    }
+    };
     
-    function exportAsHTML() {
+    window.exportAsHTML = function() {
         let html = `<!DOCTYPE html>
 <html>
 <head>
@@ -1722,16 +1685,16 @@
         URL.revokeObjectURL(url);
         
         showNotification('Exported as HTML!');
-    }
+    };
     
-    function backupToLocal() {
+    window.backupToLocal = function() {
         const backup = {
             codes: allCodes,
             timestamp: new Date().toISOString()
         };
         localStorage.setItem('codeVaultBackup', JSON.stringify(backup));
-        showNotification('Backup saved!');
-    }
+        showNotification('Backup saved locally!');
+    };
     
     // ==================== HELPER FUNCTIONS ====================
     
@@ -1790,6 +1753,10 @@
         document.querySelectorAll('.modal-overlay').forEach(modal => {
             modal.style.display = 'none';
         });
+        document.getElementById('loginError').style.display = 'none';
+        document.getElementById('registerError').style.display = 'none';
+        document.getElementById('addCodeError').style.display = 'none';
+        document.getElementById('addCodeSuccess').style.display = 'none';
     }
     
     function escapeHtml(text) {
@@ -1814,13 +1781,133 @@
         }, 3000);
     }
     
+    function showTab(tabName) {
+        const viewSection = document.getElementById('viewSection');
+        const uploadSection = document.getElementById('uploadSection');
+        const adminSection = document.getElementById('adminSection');
+        const exportSection = document.getElementById('exportSection');
+        
+        viewSection.style.display = 'none';
+        uploadSection.style.display = 'none';
+        adminSection.style.display = 'none';
+        exportSection.style.display = 'none';
+        
+        switch(tabName) {
+            case 'upload':
+                if (!currentUser) {
+                    showNotification('Please login to upload codes', 'error');
+                    viewSection.style.display = 'block';
+                    return;
+                }
+                uploadSection.style.display = 'block';
+                break;
+            case 'admin':
+                adminSection.style.display = 'block';
+                break;
+            case 'export':
+                exportSection.style.display = 'block';
+                break;
+            default:
+                viewSection.style.display = 'block';
+                break;
+        }
+    }
+    
+    // ==================== EVENT LISTENERS ====================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        loadCodesFromSheet();
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.body.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+        
+        navTabs.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn') && e.target.hasAttribute('data-tab')) {
+                const tab = e.target.getAttribute('data-tab');
+                
+                if (tab === 'admin') {
+                    showPasswordModal();
+                    return;
+                }
+                
+                showTab(tab);
+                
+                document.querySelectorAll('.filter-btn[data-tab]').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                e.target.classList.add('active');
+            }
+        });
+        
+        filterButtons.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn') && e.target.hasAttribute('data-category')) {
+                document.querySelectorAll('#filterButtons .filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                e.target.classList.add('active');
+                currentFilter = e.target.getAttribute('data-category');
+                filterAndDisplayCodes();
+            }
+        });
+        
+        searchInput.addEventListener('input', function() {
+            currentSearch = this.value.toLowerCase();
+            filterAndDisplayCodes();
+        });
+        
+        document.getElementById('themeBtn').addEventListener('click', function() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            this.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        document.getElementById('soundBtn').addEventListener('click', function() {
+            const video = document.getElementById('bgVid');
+            video.muted = !video.muted;
+            this.textContent = video.muted ? "🔇" : "🔊";
+        });
+        
+        document.getElementById('userBtn').addEventListener('click', function() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            closeModal();
+            document.getElementById('loginModal').style.display = 'flex';
+        });
+        
+        document.getElementById('registerBtn').addEventListener('click', () => {
+            closeModal();
+            document.getElementById('registerModal').style.display = 'flex';
+        });
+        
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await signOut(window.auth);
+            showNotification('Logged out successfully');
+            loadCodesFromSheet(true);
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeModal();
+            }
+        });
+        
+        document.getElementById('uploadCode')?.addEventListener('input', function() {
+            detectTags(this.value);
+        });
+    });
+    
     // Auto-refresh every 5 minutes
     setInterval(() => {
         if (navigator.onLine) {
             loadCodesFromSheet();
         }
-    }, 300000); // 5 minutes
+    }, 300000);
 </script>
-
 </body>
 </html>
