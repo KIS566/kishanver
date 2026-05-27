@@ -11,6 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     
     <style>
         :root {
@@ -1081,7 +1082,7 @@
             z-index: 10;
             transform-origin: 100% 150%;
             left: 38%;
-            transform: translateY(15rem) rotate(90deg);
+            transform: translateY(15rem) rotateY(90deg);
             animation: jmb 0.2s linear, move 2s linear;
         }
 
@@ -1094,8 +1095,10 @@
             height: 60%;
             color: #000;
             background: currentcolor;
-            border-radius: 0 0 100% 50%;
-            box-shadow: 9rem -2rem 0 -2rem, 15rem -3rem 0 -3rem;
+            border-radius: 10% 100% 50% 45%/44% 72% 26% 25%;
+            transform: rotateX(180deg) rotateY(-55deg) translate(-25%, -55%);
+            position: relative;
+            z-index: 10;
         }
 
         .cow:after {
@@ -1109,6 +1112,7 @@
             width: 5rem;
             aspect-ratio: 1/1;
             border-radius: 43% 57% 51% 49%/51% 55% 45% 49%;
+            transform: rotate(-5deg);
         }
 
         .cow .head {
@@ -1124,7 +1128,7 @@
             background: #fff;
             box-shadow: -2rem 4.5rem #000 inset;
             border-radius: 10% 100% 50% 45%/44% 72% 26% 25%;
-            transform: rotateX(180deg) rotate(-55deg) translate(-25%, -55%);
+            transform: rotateX(180deg) rotateY(-55deg) translate(-25%, -55%);
             position: relative;
             z-index: 10;
         }
@@ -1270,7 +1274,7 @@
             z-index: 110;
         }
 
-        .well::after {
+        .well:after {
             content: "";
             position: absolute;
             left: 0;
@@ -1328,82 +1332,82 @@
 
         @keyframes btnAnim {
             0%, 48% {
-                transform: translateX(-10rem) rotate(95deg);
+                transform: translateX(-10rem) rotateY(95deg);
             }
             55%, 100% {
-                transform: translateX(0rem) rotate(0deg);
+                transform: translateX(0rem) rotateY(0deg);
             }
         }
 
         @keyframes textAnim {
             0%, 60% {
                 top: 0%;
-                transform: translatey(0);
+                transform: translateY(0);
                 opacity: 0;
             }
             70%, 76%, 85% {
                 top: 28%;
-                transform: translatey(5%);
+                transform: translateY(5%);
                 opacity: 1;
             }
             73%, 79% {
                 top: 28%;
-                transform: translatey(-15%);
+                transform: translateY(-15%);
                 opacity: 1;
             }
             100% {
                 top: 28%;
-                transform: translatey(0);
+                transform: translateY(0);
             }
         }
 
         @keyframes move {
             0% {
                 left: 0%;
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0) rotateY(0deg);
             }
             85% {
                 left: 38%;
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0) rotateY(0deg);
             }
             90% {
                 left: 40%;
-                transform: translateY(0) rotate(5deg);
+                transform: translateY(0) rotateY(5deg);
             }
             95% {
                 left: 38%;
-                transform: translateY(0) rotate(90deg);
+                transform: translateY(0) rotateY(90deg);
             }
             100% {
                 left: 38%;
-                transform: translateY(15rem) rotate(90deg);
+                transform: translateY(15rem) rotateY(90deg);
             }
         }
 
         @keyframes jmb {
             0%, 100% {
-                transform: translatey(0);
+                transform: translateY(0);
             }
             50% {
-                transform: translatey(5px);
+                transform: translateY(5px);
             }
         }
 
         @keyframes legMoveB {
             0% {
-                transform: rotate(2deg) translatey(0%);
+                transform: rotate(2deg) translateY(0%);
             }
             100% {
-                transform: rotate(-5deg) translatey(-5%);
+                transform: rotate(-5deg) translateY(-5%);
             }
         }
 
         @keyframes legMoveF {
             0% {
-                transform: rotate(0deg) translatey(0%);
+                transform: rotate(0deg) translateY(0%);
             }
             100% {
-                transform: rotate(-15deg) translatey(-5%);
+                transform: rotate(-15deg) translateY(-5%);
             }
         }
 
@@ -1527,7 +1531,7 @@
             .nav-center {
                 gap: 10px;
             }
-            
+
             nav a {
                 padding: 8px 10px;
                 font-size: 0.85rem;
@@ -1545,15 +1549,15 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            
+
             .mobile-toggle {
                 display: flex;
             }
-            
+
             .nav-left, .nav-center, .nav-right {
                 display: none;
             }
-            
+
             nav.active .nav-left,
             nav.active .nav-center,
             nav.active .nav-right {
@@ -1562,45 +1566,49 @@
                 width: 100%;
                 text-align: center;
             }
-            
+
             nav.active {
                 height: 100vh;
                 justify-content: flex-start;
                 padding-top: 80px;
             }
-            
+
             .logo {
                 position: absolute;
                 top: 15px;
                 left: 20px;
             }
-            
+
             .hero img {
-                width: 180px;
-                height: 180px;
+                width: 150px;
+                height: 150px;
             }
-            
+
             .typing {
                 font-size: 1.8rem;
             }
-            
+
             .floating-nav {
                 padding: 12px 20px;
             }
-            
+
             .calculator-buttons, .calculator-buttons-advanced {
                 grid-template-columns: repeat(4, 1fr);
             }
-            
+
             .ttt-game-info {
                 flex-direction: column;
             }
-            
+
             .ttt-cell {
                 font-size: 2.5rem;
                 min-height: 80px;
             }
-            
+
+            .section-header {
+                font-size: 2rem;
+            }
+
             .cow {
                 transform: scale(0.7);
             }
@@ -1618,31 +1626,31 @@
         
         @media (max-width: 480px) {
             .hero img {
-                width: 150px;
-                height: 150px;
+                width: 120px;
+                height: 120px;
             }
-            
+
             .typing {
                 font-size: 1.5rem;
             }
-            
+
             .floating-nav {
                 flex-direction: column;
             }
-            
+
             .calculator-buttons, .calculator-buttons-advanced {
                 grid-template-columns: repeat(3, 1fr);
             }
-            
+
             .ttt-cell {
                 font-size: 2rem;
                 min-height: 70px;
             }
-            
+
             .section-header {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
-            
+
             .cow {
                 transform: scale(0.5);
             }
@@ -1692,6 +1700,7 @@
             <a href="#" data-page="calculator"><i class="fas fa-calculator"></i> Calculator</a>
             <a href="#" data-page="qr-generator"><i class="fas fa-qrcode"></i> QR Generator</a>
             <a href="#" data-page="tictactoe"><i class="fas fa-gamepad"></i> Tic Tac Toe</a>
+            <a href="https://kis566.github.io/Codeshala-Pixel-Game-/" target="_blank"><i class="fas fa-gamepad"></i> 🎮 Pixel Game</a>
         </div>
         
         <div class="nav-right">
@@ -1709,10 +1718,10 @@
     <section class="page-section active" id="home-page">
         <div class="hero">
             <div class="hero-bg"></div>
-            <img src="https://raw.githubusercontent.com/suniljansewa-spec/kishanis/main/WhatsApp%20Image%202025-10-01%20at%202.14.49%20PM%20(1).jpeg" alt="Kishan Verma">
+            <img src="https://raw.githubusercontent.com/suniljansewa-spec/kishan/main/WhatsApp%20Image%202025-10-01%20at%202.14.49%20PM%20(1).jpeg" alt="Kishan Verma">
             <div class="hero-text">
                 <div class="typing" id="typing"></div>
-                <h1>Crafting Digital Solutions ⚡</h1>
+                <h1>Crafting Digital Solutions 🚀</h1>
             </div>
             
             <div class="floating-nav">
@@ -1721,6 +1730,7 @@
                 <a href="#" data-page="calculator"><i class="fas fa-calculator"></i> Calculator</a>
                 <a href="#" data-page="qr-generator"><i class="fas fa-qrcode"></i> QR Generator</a>
                 <a href="#" data-page="tictactoe"><i class="fas fa-gamepad"></i> Tic Tac Toe</a>
+                <a href="https://kis566.github.io/Codeshala-Pixel-Game-/" target="_blank"><i class="fas fa-gamepad"></i> 🎮 Pixel Game</a>
                 <a href="#" data-page="contact"><i class="fas fa-envelope"></i> Contact</a>
             </div>
         </div>
@@ -1732,54 +1742,49 @@
             <h2 class="section-header">About Me</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <p>Hi! I am Kishan Verma, a passionate HTML, CSS, and JS developer. I share short outputs on my YouTube channel, while full source codes are uploaded here for learners. My goal is to make coding fun, interactive, and professional for everyone.</p>
-                    <p>With a keen eye for detail and a passion for creating seamless user experiences, I specialize in building responsive and dynamic web applications.</p>
+                    <h3>Hi there! 👋</h3>
+                    <p>मैं Kishan Verma हूँ, एक passionate web developer जो modern web technologies के साथ काम करता है। मुझे coding, problem-solving, और innovative solutions बनाने में दिलचस्पी है।</p>
+                    <p>मैं JavaScript, React, Node.js, और Firebase जैसी technologies में माहिर हूँ। मेरा लक्ष्य ऐसे applications बनाना है जो user-friendly और efficient हों।</p>
                 </div>
                 <div class="about-skills">
-                    <h3 style="color:var(--accent); margin-bottom:20px;">My Skills</h3>
+                    <h3>Skills 💻</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>JavaScript</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>React</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>HTML/CSS</span>
                             <span>95%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" data-width="95"></div>
+                            <div class="skill-progress" style="width: 95%"></div>
                         </div>
                     </div>
                     <div class="skill-item">
                         <div class="skill-name">
-                            <span>JavaScript</span>
-                            <span>85%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="85"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-name">
-                            <span>React</span>
-                            <span>75%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="75"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-name">
-                            <span>UI/UX Design</span>
+                            <span>Firebase</span>
                             <span>80%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" data-width="80"></div>
+                            <div class="skill-progress" style="width: 80%"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="back-to-home-container">
-                <button class="back-to-home-btn" onclick="showPage('home')">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Home
-                </button>
             </div>
         </div>
     </section>
@@ -1789,126 +1794,82 @@
         <div class="page-content">
             <h2 class="section-header">Advanced Calculator</h2>
             <div class="calculator-container">
-                <h3 class="calculator-title">Scientific Calculator</h3>
-                
+                <h3 class="calculator-title">🧮 Calculator</h3>
                 <div class="calculator-display">
-                    <div class="calc-calculation" id="calcCalculation">0</div>
+                    <div class="calc-calculation" id="calcCalculation"></div>
                     <div class="calc-result" id="calcResult">0</div>
                 </div>
-                
                 <div class="calculator-buttons">
-                    <button class="calc-btn memory" onclick="memoryRecall()">MR</button>
-                    <button class="calc-btn memory" onclick="memoryClear()">MC</button>
-                    <button class="calc-btn memory" onclick="memoryAdd()">M+</button>
-                    <button class="calc-btn memory" onclick="memorySubtract()">M-</button>
-                    <button class="calc-btn clear" onclick="clearAll()">C</button>
+                    <button class="calc-btn clear" onclick="appendToCalculator('C')">C</button>
+                    <button class="calc-btn clear" onclick="appendToCalculator('⌫')">⌫</button>
+                    <button class="calc-btn operator" onclick="appendToCalculator('(')">(</button>
+                    <button class="calc-btn operator" onclick="appendToCalculator(')')">)</button>
+                    <button class="calc-btn operator" onclick="appendToCalculator('/')">÷</button>
                     
-                    <button class="calc-btn scientific" onclick="addToCalcDisplay('(')">(</button>
-                    <button class="calc-btn scientific" onclick="addToCalcDisplay(')')">)</button>
-                    <button class="calc-btn scientific" onclick="percentage()">%</button>
-                    <button class="calc-btn operator" onclick="addToCalcDisplay('/')">/</button>
-                    <button class="calc-btn" onclick="toggleCalcHistory()">HIST</button>
+                    <button class="calc-btn" onclick="appendToCalculator('7')">7</button>
+                    <button class="calc-btn" onclick="appendToCalculator('8')">8</button>
+                    <button class="calc-btn" onclick="appendToCalculator('9')">9</button>
+                    <button class="calc-btn operator" onclick="appendToCalculator('*')">×</button>
+                    <button class="calc-btn operator" onclick="appendToCalculator('%')">%</button>
                     
-                    <button class="calc-btn" onclick="addToCalcDisplay('7')">7</button>
-                    <button class="calc-btn" onclick="addToCalcDisplay('8')">8</button>
-                    <button class="calc-btn" onclick="addToCalcDisplay('9')">9</button>
-                    <button class="calc-btn operator" onclick="addToCalcDisplay('*')">×</button>
-                    <button class="calc-btn scientific" onclick="squareRoot()">√</button>
+                    <button class="calc-btn" onclick="appendToCalculator('4')">4</button>
+                    <button class="calc-btn" onclick="appendToCalculator('5')">5</button>
+                    <button class="calc-btn" onclick="appendToCalculator('6')">6</button>
+                    <button class="calc-btn operator" onclick="appendToCalculator('-')">−</button>
+                    <button class="calc-btn operator" onclick="appendToCalculator('^')">^</button>
                     
-                    <button class="calc-btn" onclick="addToCalcDisplay('4')">4</button>
-                    <button class="calc-btn" onclick="addToCalcDisplay('5')">5</button>
-                    <button class="calc-btn" onclick="addToCalcDisplay('6')">6</button>
-                    <button class="calc-btn operator" onclick="addToCalcDisplay('-')">-</button>
-                    <button class="calc-btn scientific" onclick="power()">x²</button>
+                    <button class="calc-btn" onclick="appendToCalculator('1')">1</button>
+                    <button class="calc-btn" onclick="appendToCalculator('2')">2</button>
+                    <button class="calc-btn" onclick="appendToCalculator('3')">3</button>
+                    <button class="calc-btn operator" onclick="appendToCalculator('+')">+</button>
+                    <button class="calc-btn operator" onclick="appendToCalculator('.')">,</button>
                     
-                    <button class="calc-btn" onclick="addToCalcDisplay('1')">1</button>
-                    <button class="calc-btn" onclick="addToCalcDisplay('2')">2</button>
-                    <button class="calc-btn" onclick="addToCalcDisplay('3')">3</button>
-                    <button class="calc-btn operator" onclick="addToCalcDisplay('+')">+</button>
-                    <button class="calc-btn scientific" onclick="powerY()">x^y</button>
-                    
-                    <button class="calc-btn" onclick="addToCalcDisplay('0')">0</button>
-                    <button class="calc-btn" onclick="addToCalcDisplay('.')">.</button>
-                    <button class="calc-btn" onclick="backspace()">⌫</button>
-                    <button class="calc-btn equals" onclick="calculate()">=</button>
-                    <button class="calc-btn scientific" onclick="factorial()">x!</button>
+                    <button class="calc-btn" onclick="appendToCalculator('0')">0</button>
+                    <button class="calc-btn" onclick="appendToCalculator('00')">00</button>
+                    <button class="calc-btn operator" onclick="appendToCalculator('±')">±</button>
+                    <button class="equals" onclick="calculateResult()">=</button>
                 </div>
-                
                 <div class="calculator-buttons-advanced">
-                    <button class="calc-btn scientific" onclick="sin()">sin</button>
-                    <button class="calc-btn scientific" onclick="cos()">cos</button>
-                    <button class="calc-btn scientific" onclick="tan()">tan</button>
-                    <button class="calc-btn scientific" onclick="log()">log</button>
-                    <button class="calc-btn scientific" onclick="ln()">ln</button>
-                    
-                    <button class="calc-btn scientific" onclick="asin()">sin⁻¹</button>
-                    <button class="calc-btn scientific" onclick="acos()">cos⁻¹</button>
-                    <button class="calc-btn scientific" onclick="atan()">tan⁻¹</button>
-                    <button class="calc-btn scientific" onclick="exp()">e^x</button>
-                    <button class="calc-btn scientific" onclick="pi()">π</button>
+                    <button class="calc-btn scientific" onclick="appendToCalculator('Math.sqrt(')">√</button>
+                    <button class="calc-btn scientific" onclick="appendToCalculator('Math.sin(')">sin</button>
+                    <button class="calc-btn scientific" onclick="appendToCalculator('Math.cos(')">cos</button>
+                    <button class="calc-btn scientific" onclick="appendToCalculator('Math.tan(')">tan</button>
+                    <button class="calc-btn scientific" onclick="appendToCalculator('Math.PI')">π</button>
                 </div>
-                
-                <div class="history-panel" id="calcHistoryPanel" style="display: none;">
-                    <h3 style="color: var(--accent); margin-bottom: 10px;">Calculation History</h3>
-                    <div id="calcHistoryList"></div>
-                </div>
-            </div>
-            <div class="back-to-home-container">
-                <button class="back-to-home-btn" onclick="showPage('home')">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Home
-                </button>
             </div>
         </div>
     </section>
 
     <!-- QR Generator Page -->
-    <section class="page-section" id="qr-generator-page">
+    <section class="page-section" id="qr-page">
         <div class="page-content">
             <h2 class="section-header">QR Code Generator</h2>
             <div class="qr-generator-container">
-                <h3 class="qr-generator-title">Create Custom QR Codes</h3>
-                
+                <h3 class="qr-generator-title">📱 QR Code Generator</h3>
                 <div class="qr-form-box">
-                    <input type="text" id="qrText" class="qr-input" placeholder="Enter your link or text..." />
-                    
+                    <input type="text" class="qr-input" id="qrInput" placeholder="Enter text or URL to generate QR Code">
                     <div class="customize">
-                        <label>QR Color: <input type="color" id="qrColor" class="qr-color-input" value="#00e676"></label>
-                        <label>Background: <input type="color" id="bgColor" class="qr-color-input" value="#000000"></label>
-                        <label>Eye Style: 
-                            <select id="eyeStyle" class="qr-select">
-                                <option value="square">Square</option>
-                                <option value="circle">Circle</option>
-                            </select>
-                        </label>
-                        <label>Pattern Style: 
-                            <select id="dotStyle" class="qr-select">
-                                <option value="square">Square</option>
-                                <option value="dots">Dots</option>
-                                <option value="rounded">Rounded</option>
-                            </select>
-                        </label>
-                        <label>Logo: <input type="file" id="logoUpload" accept="image/*"></label>
+                        <label for="qrColor">QR Color:</label>
+                        <input type="color" class="qr-color-input" id="qrColor" value="#000000">
+                        <label for="qrBgColor">Background:</label>
+                        <input type="color" class="qr-color-input" id="qrBgColor" value="#ffffff">
+                        <label for="qrSize">Size:</label>
+                        <select class="qr-select" id="qrSize">
+                            <option value="200">Small (200x200)</option>
+                            <option value="300" selected>Medium (300x300)</option>
+                            <option value="400">Large (400x400)</option>
+                            <option value="500">Extra Large (500x500)</option>
+                        </select>
                     </div>
-
-                    <button id="generateBtn" class="qr-generate-btn">Generate QR</button>
+                    <button class="qr-generate-btn" onclick="generateQRCode()">Generate QR Code</button>
                 </div>
-
                 <div class="qr-section">
                     <div id="qrContainer"></div>
                     <div class="qr-actions">
-                        <button id="downloadPng" class="qr-download-btn">Download PNG</button>
-                        <button id="downloadJpg" class="qr-download-btn">Download JPG</button>
-                        <button id="downloadSvg" class="qr-download-btn">Download SVG</button>
-                        <button id="copyLink" class="qr-download-btn">Copy Link</button>
+                        <button class="qr-download-btn" id="downloadBtn" style="display:none;" onclick="downloadQRCode()">📥 Download QR Code</button>
+                        <button class="qr-download-btn" id="printBtn" style="display:none;" onclick="printQRCode()">🖨️ Print QR Code</button>
                     </div>
                 </div>
-            </div>
-            <div class="back-to-home-container">
-                <button class="back-to-home-btn" onclick="showPage('home')">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Home
-                </button>
             </div>
         </div>
     </section>
@@ -1916,82 +1877,73 @@
     <!-- Tic Tac Toe Page -->
     <section class="page-section" id="tictactoe-page">
         <div class="page-content">
-            <h2 class="section-header">Tic Tac Toe Game</h2>
+            <h2 class="section-header">Tic Tac Toe</h2>
             <div class="tictactoe-container">
-                <h3 class="tictactoe-title">🎮 Advanced Tic Tac Toe</h3>
+                <h3 class="tictactoe-title">🎮 Tic Tac Toe</h3>
                 
                 <div class="ttt-game-info">
                     <div class="ttt-mode-selector">
-                        <h3>Game Mode</h3>
+                        <h3>Mode</h3>
                         <div class="ttt-mode-buttons">
-                            <button class="ttt-mode-btn active" data-mode="ai">🤖 vs AI</button>
-                            <button class="ttt-mode-btn" data-mode="player">👥 vs Player</button>
+                            <button class="ttt-mode-btn active" onclick="setGameMode('pvp')">PvP</button>
+                            <button class="ttt-mode-btn" onclick="setGameMode('pvc')">PvC</button>
                         </div>
                     </div>
-                    
-                    <div class="ttt-ai-level-selector">
-                        <h3>AI Difficulty</h3>
+                    <div class="ttt-ai-level-selector" id="aiLevelSection" style="display:none;">
+                        <h3>AI Level</h3>
                         <div class="ttt-level-buttons">
-                            <button class="ttt-level-btn active" data-level="easy">Easy</button>
-                            <button class="ttt-level-btn" data-level="medium">Medium</button>
-                            <button class="ttt-level-btn" data-level="hard">Hard</button>
+                            <button class="ttt-level-btn active" onclick="setAILevel('easy')">Easy</button>
+                            <button class="ttt-level-btn" onclick="setAILevel('hard')">Hard</button>
                         </div>
                     </div>
-                    
                     <div class="ttt-player-selector">
-                        <h3>You Play As</h3>
+                        <h3>You are</h3>
                         <div class="ttt-player-buttons">
-                            <button class="ttt-player-btn active" data-player="X">X (First)</button>
-                            <button class="ttt-player-btn" data-player="O">O (Second)</button>
+                            <button class="ttt-player-btn active" onclick="setPlayerSymbol('X')">X</button>
+                            <button class="ttt-player-btn" onclick="setPlayerSymbol('O')">O</button>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="ttt-score-board">
-                    <div class="ttt-score ttt-score-player">
-                        <h3>Player X</h3>
-                        <div class="ttt-score-value" id="tttPlayerXScore">0</div>
+                    <div class="ttt-score">
+                        <h3>You</h3>
+                        <div class="ttt-score-value" id="playerScore">0</div>
                     </div>
-                    <div class="ttt-score ttt-score-ties">
-                        <h3>Ties</h3>
-                        <div class="ttt-score-value" id="tttTiesScore">0</div>
+                    <div class="ttt-score">
+                        <h3>Draws</h3>
+                        <div class="ttt-score-value" id="drawScore">0</div>
                     </div>
-                    <div class="ttt-score ttt-score-ai">
-                        <h3>Player / AI O</h3>
-                        <div class="ttt-score-value" id="tttPlayerOScore">0</div>
+                    <div class="ttt-score">
+                        <h3 id="oppLabel">Opponent</h3>
+                        <div class="ttt-score-value" id="opponentScore">0</div>
                     </div>
                 </div>
-                
-                <div class="ttt-game-status" id="tttStatus">Your Turn (X)</div>
-                
+
+                <div class="ttt-game-status" id="gameStatus">Your Turn (X)</div>
+
                 <div class="ttt-board" id="tttBoard">
-                    <div class="ttt-cell" data-index="0"></div>
-                    <div class="ttt-cell" data-index="1"></div>
-                    <div class="ttt-cell" data-index="2"></div>
-                    <div class="ttt-cell" data-index="3"></div>
-                    <div class="ttt-cell" data-index="4"></div>
-                    <div class="ttt-cell" data-index="5"></div>
-                    <div class="ttt-cell" data-index="6"></div>
-                    <div class="ttt-cell" data-index="7"></div>
-                    <div class="ttt-cell" data-index="8"></div>
+                    <div class="ttt-cell" onclick="playMove(0)"></div>
+                    <div class="ttt-cell" onclick="playMove(1)"></div>
+                    <div class="ttt-cell" onclick="playMove(2)"></div>
+                    <div class="ttt-cell" onclick="playMove(3)"></div>
+                    <div class="ttt-cell" onclick="playMove(4)"></div>
+                    <div class="ttt-cell" onclick="playMove(5)"></div>
+                    <div class="ttt-cell" onclick="playMove(6)"></div>
+                    <div class="ttt-cell" onclick="playMove(7)"></div>
+                    <div class="ttt-cell" onclick="playMove(8)"></div>
                 </div>
-                
+
                 <div class="ttt-controls">
-                    <button class="ttt-btn ttt-btn-reset" onclick="tttResetGame()">Restart Game</button>
-                    <button class="ttt-btn ttt-btn-switch" onclick="tttSwitchSides()">Switch Sides</button>
-                    <button class="ttt-btn" onclick="tttUndoMove()">Undo Move</button>
+                    <button class="ttt-btn" onclick="resetTTT()">🔄 New Game</button>
+                    <button class="ttt-btn ttt-btn-switch" onclick="switchSymbol()">🔀 Switch Symbol</button>
+                    <button class="ttt-btn ttt-btn-reset" onclick="resetScores()">Reset Scores</button>
                 </div>
-                
+
                 <div class="ttt-move-history">
                     <h3>Move History</h3>
-                    <div class="ttt-move-list" id="tttMoveList"></div>
+                    <div class="ttt-move-list" id="moveHistory"></div>
                 </div>
-            </div>
-            <div class="back-to-home-container">
-                <button class="back-to-home-btn" onclick="showPage('home')">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Home
-                </button>
             </div>
         </div>
     </section>
@@ -2000,1234 +1952,480 @@
     <section class="page-section" id="contact-page">
         <div class="page-content">
             <h2 class="section-header">Contact Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>If you'd like to get in touch with me, feel free to reach out through any of the following channels:</p>
-                    <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
-                </div>
-                <div class="about-skills">
-                    <h3 style="color:var(--accent); margin-bottom:20px;">Contact Information</h3>
-                    <div class="skill-item">
-                        <div class="skill-name">
-                            <span><i class="fas fa-envelope"></i> Email</span>
-                            <span>k9891p@gmail.com</span>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-name">
-                            <span><i class="fas fa-phone"></i> Phone</span>
-                            <span>+91 9355121175</span>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-name">
-                            <span><i class="fab fa-linkedin"></i> LinkedIn</span>
-                            <span>In Future</span>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-name">
-                            <span><i class="fab fa-github"></i> GitHub</span>
-                            <span>In Future</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="back-to-home-container">
-                <button class="back-to-home-btn" onclick="showPage('home')">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Home
-                </button>
+            <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                <p>आप मुझसे संपर्क कर सकते हैं:</p>
+                <p>📧 Email: kishan.verma@example.com</p>
+                <p>💬 WhatsApp: +91 XXXXXXXXXX</p>
+                <p>🔗 LinkedIn: linkedin.com/in/kishant</p>
+                <p>💻 GitHub: github.com/KIS566</p>
             </div>
         </div>
     </section>
 
-    <!-- Blog Page -->
-    <section class="page-section" id="blog-page">
-        <div class="page-content">
-            <h2 class="section-header">My Blog</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>Welcome to my blog! Here I share my thoughts, experiences, and tutorials about web development, programming, and technology in general.</p>
-                    <p>Stay tuned for upcoming posts where I'll be sharing tips, tricks, and insights from my journey as a developer.</p>
-                </div>
-                <div class="about-skills">
-                    <h3 style="color:var(--accent); margin-bottom:20px;">Coming Soon</h3>
-                    <div class="skill-item">
-                        <p>I'm currently working on some exciting content for my blog. Check back soon for:</p>
-                        <ul style="margin-top: 15px; padding-left: 20px;">
-                            <li>Web Development Tutorials</li>
-                            <li>JavaScript Tips & Tricks</li>
-                            <li>Responsive Design Techniques</li>
-                            <li>Project Showcases</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="back-to-home-container">
-                <button class="back-to-home-btn" onclick="showPage('home')">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Home
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Error Page (401 Cow Animation) -->
+    <!-- Error 404 Page (Cow Animation) -->
     <section class="page-section" id="error-page">
         <div class="error-page">
-            <div class="error-animation">
-                <div class="cow">
-                    <div class="head">
-                        <div class="face"></div>
+            <div class="error-content-wrapper">
+                <div class="error-animation">
+                    <div class="cow">
+                        <div class="head">
+                            <div class="face"></div>
+                        </div>
+                        <div class="leg b l"></div>
+                        <div class="leg b r"></div>
+                        <div class="leg f l"></div>
+                        <div class="leg f r"></div>
+                        <div class="tail"></div>
                     </div>
-                    <div class="leg b l"></div>
-                    <div class="leg b r"></div>
-                    <div class="leg f l"></div>
-                    <div class="leg f r"></div>
-                    <div class="tail"></div>
-                </div>
-                <div class="well">
-                    <a class="home-btn" href="#" data-page="home">Go Home</a>
+                    <div class="well"></div>
+                    <a href="#" onclick="showPage('home')" class="home-btn">Home</a>
                 </div>
                 <div class="text-box">
-                    <h1>401</h1>
-                    <p id="errorMessage">Connection Lost...</p>
+                    <h1>404</h1>
+                    <p>Page Not Found!</p>
                 </div>
-            </div>
-            <div class="back-to-home-container">
-                <button class="back-to-home-btn" onclick="showPage('home')">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Home
-                </button>
             </div>
         </div>
     </section>
 
-    <!-- Auth Modal -->
-    <div class="auth-modal" id="authModal">
-        <div class="auth-container">
-            <button class="auth-close" onclick="closeAuthModal()">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <h2 class="auth-title">Welcome</h2>
-            
-            <div class="auth-tabs">
-                <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">Login</button>
-                <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">Register</button>
-            </div>
-            
-            <!-- Login Form -->
-            <form id="loginForm" class="auth-form" onsubmit="event.preventDefault(); loginWithEmail();">
-                <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginPassword" placeholder="Password" required>
-                <button type="submit" class="auth-btn">Login</button>
-            </form>
-            
-            <!-- Register Form -->
-            <form id="registerForm" class="auth-form" style="display: none;" onsubmit="event.preventDefault(); registerWithEmail();">
-                <input type="text" id="registerName" placeholder="Full Name" required>
-                <input type="email" id="registerEmail" placeholder="Email" required>
-                <input type="password" id="registerPassword" placeholder="Password" required>
-                <input type="password" id="registerConfirmPassword" placeholder="Confirm Password" required>
-                <button type="submit" class="auth-btn">Register</button>
-            </form>
-            
-            <div class="auth-divider">
-                <span>OR</span>
-            </div>
-            
-            <button class="auth-btn google-btn" onclick="loginWithGoogle()">
-                <i class="fab fa-google"></i> Continue with Google
-            </button>
-            
-            <div id="authError" class="auth-error"></div>
-            <div id="authSuccess" class="auth-success"></div>
-        </div>
-    </div>
-
     <!-- Footer -->
-    <!-- Footer से पहले यह add करें -->
-<button class="floating-back-btn" onclick="showPage('home')" id="floatingBackBtn">
-    <i class="fas fa-home"></i>
-</button>
-
-
-
-    
-    
     <footer>
-        <div class="social-links" style="display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;">
-            <!-- 1. YouTube -->
-            <a href="https://www.youtube.com/@codeShalaByKMFL" target="_blank" title="YouTube">
-                <i class="fab fa-youtube" style="font-size:22px;color:#ff0000;"></i>
-            </a>
-            
-            <!-- 2. GitHub -->
-            <a href="https://github.com/your-gh-username" target="_blank" title="GitHub">
-                <i class="fab fa-github" style="font-size:22px;"></i>
-            </a>
-            
-            <!-- 3. LinkedIn -->
-            <a href="https://www.linkedin.com/in/yourprofile" target="_blank" title="LinkedIn">
-                <i class="fab fa-linkedin" style="font-size:22px;color:#0e76a8;"></i>
-            </a>
-            
-            <!-- 4. Twitter -->
-            <a href="https://twitter.com/yourhandle" target="_blank" title="Twitter">
-                <i class="fab fa-twitter" style="font-size:22px;color:#1da1f2;"></i>
-            </a>
-            
-            <!-- 5. QR Code Generator -->
-            <a href="#" data-page="qr-generator" title="QR Code Generator" style="font-size:24px; color:#00e676; text-decoration:none;">
-                <i class="fas fa-qrcode"></i>
-            </a>
-            
-            <!-- 6. codes1.html -->
-            <a href="codes.html" target="_blank" title="Get Source Code Here" style="font-size:24px; color:#00e676; text-decoration:none;">
-                <i class="fas fa-file-code"></i>
-            </a>
-            
-            <!-- 7. codes.html -->
-            <a href="codes1.html" target="_blank" title="View All Codes" style="font-size:24px; color:#00b0ff; text-decoration:none;">
-                <i class="fas fa-folder-open"></i>
-            </a>
+        <div class="social-links">
+            <a href="https://github.com/KIS566" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/kishant" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
-        
-        <p class="copyright" style="text-align:center;color:#9aa6b2;margin-top:12px;">
-            © 2023 Kishan Verma. All Rights Reserved.
-        </p>
+        <p class="copyright">&copy; 2025 Kishan Verma. All rights reserved.</p>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
-    
+    <!-- JavaScript -->
     <script>
-        // ========== FIREBASE CONFIGURATION ==========
-        // ⚠️ IMPORTANT: Replace with your own Firebase config!
-       const firebaseConfig = {
-  apiKey: "AIzaSyA5l5looJsgRMlvhCzDn2n8PnIBX2nx0V4",
-  authDomain: "class-8c516.firebaseapp.com",
-  projectId: "class-8c516",
-  storageBucket: "class-8c516.firebasestorage.app",
-  messagingSenderId: "349882277777",
-  appId: "1:349882277777:web:22122ef6d6ed02e7878430"
-};
-
-        // Initialize Firebase with error handling
-        let auth, db;
-        try {
-            firebase.initializeApp(firebaseConfig);
-            auth = firebase.auth();
-            db = firebase.firestore();
-            console.log('✅ Firebase initialized');
-        } catch (error) {
-            console.error('❌ Firebase initialization error:', error);
-            // Show error page if Firebase fails to initialize
-            setTimeout(() => {
-                document.getElementById('errorMessage').textContent = 'Firebase Connection Failed!';
-                showPage('error');
-            }, 2000);
-        }
-
-        // Network status check
-        window.addEventListener('online', () => {
-            console.log('✅ Network connected');
-        });
-
-        window.addEventListener('offline', () => {
-            console.log('❌ Network disconnected');
-            document.getElementById('errorMessage').textContent = 'No Internet Connection!';
-            showPage('error');
-        });
-
-        // ========== AUTH STATE LISTENER ==========
-        let currentUser = null;
-
-        if (auth) {
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    currentUser = user;
-                    updateUIForLoggedInUser(user);
-                    console.log('User logged in:', user.email);
-                } else {
-                    currentUser = null;
-                    updateUIForLoggedOutUser();
-                    console.log('User logged out');
-                }
-            });
-        }
-
-        function updateUIForLoggedInUser(user) {
-            const authButtons = document.getElementById('authButtons');
-            if (authButtons) {
-                authButtons.innerHTML = `
-                    <div class="user-profile">
-                        <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=00e676&color=000'}" 
-                             alt="${user.displayName || 'User'}" 
-                             class="user-avatar"
-                             onclick="toggleUserDropdown()">
-                        <div class="user-dropdown" id="userDropdown">
-                            <div class="user-info">
-                                <p><strong>${user.displayName || 'User'}</strong></p>
-                                <small>${user.email}</small>
-                            </div>
-                            <button class="logout-btn" onclick="logout()">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        function updateUIForLoggedOutUser() {
-            const authButtons = document.getElementById('authButtons');
-            if (authButtons) {
-                authButtons.innerHTML = `
-                    <button class="login-btn" onclick="showAuthModal()">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </button>
-                `;
-            }
-        }
-
-        // ========== FOOTER BUTTON FUNCTIONS ==========
-        function openProjectsFolder() {
-            // यहाँ आप अपना projects folder का link डालें
-            window.open('projects/', '_blank');
-            // या अगर कोई specific file है तो:
-            // window.open('projects/index.html', '_blank');
-            alert('📁 Projects folder will open in new tab!');
-        }
-
-        function openSourceCode() {
-            // यहाँ आप अपना source code का link डालें
-            window.open('codes.html', '_blank');
-            // या GitHub repo का link:
-            // window.open('https://github.com/yourusername/portfolio', '_blank');
-            alert('📄 Source code will open in new tab!');
-        }
-
-        // ========== AUTH FUNCTIONS ==========
-        function showAuthModal() {
-            document.getElementById('authModal').classList.add('active');
-        }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.remove('active');
-            clearAuthMessages();
-        }
-
-        function switchAuthTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-            
-            document.getElementById('loginForm').style.display = tab === 'login' ? 'flex' : 'none';
-            document.getElementById('registerForm').style.display = tab === 'register' ? 'flex' : 'none';
-            
-            clearAuthMessages();
-        }
-
-        function toggleUserDropdown() {
-            const dropdown = document.getElementById('userDropdown');
-            if (dropdown) {
-                dropdown.classList.toggle('active');
-            }
-        }
-
-        async function loginWithEmail() {
-            if (!auth) {
-                showAuthError('Firebase not initialized');
-                return;
-            }
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            if (!email || !password) {
-                showAuthError('Please fill in all fields');
-                return;
-            }
-            
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-                showAuthSuccess('Login successful!');
-                setTimeout(() => closeAuthModal(), 1500);
-            } catch (error) {
-                showAuthError(getErrorMessage(error.code));
-                // If network error, show cow page
-                if (error.code === 'auth/network-request-failed') {
-                    setTimeout(() => {
-                        document.getElementById('errorMessage').textContent = 'Network Error!';
-                        showPage('error');
-                    }, 1000);
-                }
-            }
-        }
-
-        async function registerWithEmail() {
-            if (!auth) {
-                showAuthError('Firebase not initialized');
-                return;
-            }
-            
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
-            
-            if (!name || !email || !password || !confirmPassword) {
-                showAuthError('Please fill in all fields');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                showAuthError('Passwords do not match');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showAuthError('Password must be at least 6 characters');
-                return;
-            }
-            
-            try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                await userCredential.user.updateProfile({ displayName: name });
-                showAuthSuccess('Registration successful!');
-                setTimeout(() => closeAuthModal(), 1500);
-            } catch (error) {
-                showAuthError(getErrorMessage(error.code));
-                if (error.code === 'auth/network-request-failed') {
-                    setTimeout(() => {
-                        document.getElementById('errorMessage').textContent = 'Network Error!';
-                        showPage('error');
-                    }, 1000);
-                }
-            }
-        }
-
-        async function loginWithGoogle() {
-            if (!auth) {
-                showAuthError('Firebase not initialized');
-                return;
-            }
-            
-            const provider = new firebase.auth.GoogleAuthProvider();
-            try {
-                await auth.signInWithPopup(provider);
-                showAuthSuccess('Login successful!');
-                setTimeout(() => closeAuthModal(), 1500);
-            } catch (error) {
-                showAuthError(getErrorMessage(error.code));
-                if (error.code === 'auth/network-request-failed' || error.code === 'auth/popup-closed-by-user') {
-                    if (error.code === 'auth/network-request-failed') {
-                        setTimeout(() => {
-                            document.getElementById('errorMessage').textContent = 'Network Error!';
-                            showPage('error');
-                        }, 1000);
-                    }
-                }
-            }
-        }
-
-        async function logout() {
-            try {
-                await auth.signOut();
-            } catch (error) {
-                console.error('Logout error:', error);
-            }
-        }
-
-        function showAuthError(message) {
-            const errorEl = document.getElementById('authError');
-            const successEl = document.getElementById('authSuccess');
-            if (errorEl) {
-                errorEl.textContent = message;
-                errorEl.style.display = 'block';
-            }
-            if (successEl) successEl.style.display = 'none';
-        }
-
-        function showAuthSuccess(message) {
-            const errorEl = document.getElementById('authError');
-            const successEl = document.getElementById('authSuccess');
-            if (successEl) {
-                successEl.textContent = message;
-                successEl.style.display = 'block';
-            }
-            if (errorEl) errorEl.style.display = 'none';
-        }
-
-        function clearAuthMessages() {
-            const errorEl = document.getElementById('authError');
-            const successEl = document.getElementById('authSuccess');
-            if (errorEl) errorEl.style.display = 'none';
-            if (successEl) successEl.style.display = 'none';
-        }
-
-        function getErrorMessage(code) {
-            const messages = {
-                'auth/invalid-email': 'Invalid email address',
-                'auth/user-disabled': 'This account has been disabled',
-                'auth/user-not-found': 'No account found with this email',
-                'auth/wrong-password': 'Incorrect password',
-                'auth/email-already-in-use': 'Email already registered',
-                'auth/weak-password': 'Password should be at least 6 characters',
-                'auth/popup-closed-by-user': 'Sign-in cancelled',
-                'auth/network-request-failed': 'Network error. Check your connection'
-            };
-            return messages[code] || 'An error occurred. Please try again.';
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.user-profile')) {
-                const dropdown = document.getElementById('userDropdown');
-                if (dropdown) dropdown.classList.remove('active');
-            }
-        });
-
-        // ========== PAGE NAVIGATION ==========
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            const targetPage = document.getElementById(pageId + '-page');
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-            
-            window.location.hash = pageId;
+        // Page Navigation
+        function showPage(pageName) {
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageName + '-page').classList.add('active');
             window.scrollTo(0, 0);
-            
-            // Update floating back button
-            const floatingBackBtn = document.getElementById('floatingBackBtn');
-            if (floatingBackBtn) {
-                floatingBackBtn.style.display = pageId === 'home' ? 'none' : 'flex';
-            }
-            
-            // Close mobile menu
-            if (mainNav.classList.contains('active')) {
-                mainNav.classList.remove('active');
-                mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-            
-            // Initialize Tic Tac Toe if needed
-            if (pageId === 'tictactoe') {
-                setTimeout(initTicTacToeGame, 100);
-            }
+            document.getElementById('mainNav').classList.remove('active');
         }
 
-        // Set up navigation
-        document.querySelectorAll('nav a, .floating-nav a, .back-to-home-btn, .home-btn').forEach(link => {
-            link.addEventListener('click', function(e) {
-                const page = this.getAttribute('data-page');
-                if (page) {
-                    e.preventDefault();
-                    showPage(page);
-                }
+        // Navigation Links
+        document.querySelectorAll('[data-page]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage(link.dataset.page);
             });
-        });
-
-        // Check URL hash on load
-        window.addEventListener('load', function() {
-            const hash = window.location.hash.substring(1);
-            if (hash) {
-                showPage(hash);
-                if (hash === 'tictactoe') {
-                    setTimeout(initTicTacToeGame, 100);
-                }
-            } else {
-                showPage('home');
-            }
         });
 
         // Mobile Navigation
         const mobileToggle = document.getElementById('mobileToggle');
         const mainNav = document.getElementById('mainNav');
-        
-        mobileToggle.addEventListener('click', function() {
+        mobileToggle.addEventListener('click', () => {
             mainNav.classList.toggle('active');
-            mobileToggle.innerHTML = mainNav.classList.contains('active') ? 
-                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
         });
 
-        // Scroll to top
-        window.addEventListener("scroll", () => {
-            const scrollTopBtn = document.getElementById("scrollTop");
-            const floatingBackBtn = document.getElementById("floatingBackBtn");
-            
-            if (window.pageYOffset > 300) {
-                if (scrollTopBtn) scrollTopBtn.style.display = "flex";
-                const currentPage = window.location.hash.substring(1) || 'home';
-                if (currentPage !== 'home' && floatingBackBtn) {
-                    floatingBackBtn.style.display = "flex";
-                }
+        // Typing Animation
+        const typingText = ['Kishan Verma', 'Web Developer', 'Problem Solver', 'Tech Enthusiast'];
+        let typingIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeAnimation() {
+            const typingElement = document.getElementById('typing');
+            const currentText = typingText[typingIndex];
+
+            if (isDeleting) {
+                charIndex--;
             } else {
-                if (scrollTopBtn) scrollTopBtn.style.display = "none";
-                if (floatingBackBtn) floatingBackBtn.style.display = "none";
+                charIndex++;
             }
-            
-            // Animate skill bars
-            document.querySelectorAll('.skill-progress').forEach(bar => {
-                const rect = bar.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom >= 0) {
-                    bar.style.width = bar.getAttribute('data-width') + '%';
-                }
-            });
-        });
 
-        document.getElementById("scrollTop").addEventListener("click", function() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        });
+            typingElement.textContent = currentText.substring(0, charIndex);
 
-        // Typing Effect
-        const text = "Kishan Verma";
-        const typingEl = document.getElementById("typing");
-        let i = 0, forward = true;
-        
-        function typeEffect() {
-            if (typingEl) {
-                if (forward) { 
-                    typingEl.textContent = text.substring(0, i); 
-                    if (i < text.length) { 
-                        i++; 
-                        setTimeout(typeEffect, 150);
-                    } else {
-                        forward = false; 
-                        setTimeout(typeEffect, 1000);
-                    }
-                } else { 
-                    typingEl.textContent = text.substring(0, i); 
-                    if (i > 0) {
-                        i--; 
-                        setTimeout(typeEffect, 100);
-                    } else {
-                        forward = true; 
-                        setTimeout(typeEffect, 800);
-                    }
-                }
+            if (!isDeleting && charIndex === currentText.length) {
+                setTimeout(() => { isDeleting = true; }, 1500);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                typingIndex = (typingIndex + 1) % typingText.length;
             }
-        }
-        typeEffect();
 
-        // ========== CALCULATOR ==========
-        let calcDisplayValue = '0';
-        let calcCalculation = '0';
-        let calcMemory = 0;
-        let isDegreeMode = true;
-        let calcHistory = [];
-        let calcLastResult = 0;
-        
-        const calcDisplayElement = document.getElementById('calcResult');
-        const calcCalculationElement = document.getElementById('calcCalculation');
-        const calcHistoryPanel = document.getElementById('calcHistoryPanel');
-        const calcHistoryList = document.getElementById('calcHistoryList');
-        
-        function updateCalcDisplay() {
-            if (calcDisplayElement) calcDisplayElement.textContent = calcDisplayValue;
-            if (calcCalculationElement) calcCalculationElement.textContent = calcCalculation;
+            setTimeout(typeAnimation, isDeleting ? 100 : 150);
         }
-        
-        function addToCalcDisplay(value) {
-            if (calcDisplayValue === '0' || calcDisplayValue === 'Error') {
-                calcDisplayValue = value;
+
+        typeAnimation();
+
+        // Calculator
+        let calcDisplay = '';
+
+        function appendToCalculator(value) {
+            if (value === 'C') {
+                calcDisplay = '';
+            } else if (value === '⌫') {
+                calcDisplay = calcDisplay.slice(0, -1);
+            } else if (value === '±') {
+                calcDisplay = calcDisplay ? String(-parseFloat(calcDisplay)) : '';
             } else {
-                calcDisplayValue += value;
+                calcDisplay += value;
             }
-            calcCalculation = calcDisplayValue;
-            updateCalcDisplay();
+            document.getElementById('calcCalculation').textContent = calcDisplay;
+            document.getElementById('calcResult').textContent = calcDisplay || '0';
         }
-        
-        function calculate() {
+
+        function calculateResult() {
             try {
-                let expression = calcDisplayValue
-                    .replace(/×/g, '*')
+                let result = calcDisplay
                     .replace(/÷/g, '/')
-                    .replace(/π/g, Math.PI)
-                    .replace(/Ans/g, calcLastResult)
+                    .replace(/×/g, '*')
+                    .replace(/−/g, '-')
+                    .replace(/,/g, '.')
                     .replace(/\^/g, '**');
                 
-                let result = eval(expression);
-                if (!isFinite(result)) throw new Error('Invalid calculation');
-                
-                result = parseFloat(result.toPrecision(12));
-                addToCalcHistory(calcDisplayValue, result);
-                
-                calcCalculation = calcDisplayValue + ' =';
-                calcDisplayValue = result.toString();
-                calcLastResult = result;
-                updateCalcDisplay();
-            } catch (error) {
-                calcDisplayValue = 'Error';
-                updateCalcDisplay();
+                result = eval(result);
+                calcDisplay = String(result);
+                document.getElementById('calcResult').textContent = result;
+                document.getElementById('calcCalculation').textContent = '';
+            } catch (e) {
+                document.getElementById('calcResult').textContent = 'Error';
             }
         }
-        
-        function clearAll() {
-            calcDisplayValue = '0';
-            calcCalculation = '0';
-            updateCalcDisplay();
-        }
-        
-        function backspace() {
-            if (calcDisplayValue.length > 1) {
-                calcDisplayValue = calcDisplayValue.slice(0, -1);
-            } else {
-                calcDisplayValue = '0';
+
+        // QR Generator
+        function generateQRCode() {
+            const input = document.getElementById('qrInput').value;
+            const color = document.getElementById('qrColor').value;
+            const bgColor = document.getElementById('qrBgColor').value;
+            const size = document.getElementById('qrSize').value;
+
+            if (!input) {
+                alert('Please enter text or URL');
+                return;
             }
-            calcCalculation = calcDisplayValue;
-            updateCalcDisplay();
-        }
-        
-        function memoryRecall() {
-            calcDisplayValue = calcMemory.toString();
-            calcCalculation = calcDisplayValue;
-            updateCalcDisplay();
-        }
-        
-        function memoryClear() { calcMemory = 0; }
-        function memoryAdd() { calcMemory += parseFloat(calcDisplayValue) || 0; }
-        function memorySubtract() { calcMemory -= parseFloat(calcDisplayValue) || 0; }
-        
-        function squareRoot() {
-            let value = parseFloat(calcDisplayValue);
-            if (value < 0) { calcDisplayValue = 'Error'; updateCalcDisplay(); return; }
-            let result = Math.sqrt(value);
-            addToCalcHistory(`√(${value})`, result);
-            calcCalculation = `√(${value})`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function power() {
-            let value = parseFloat(calcDisplayValue);
-            let result = Math.pow(value, 2);
-            addToCalcHistory(`(${value})²`, result);
-            calcCalculation = `(${value})²`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function powerY() { addToCalcDisplay('^'); }
-        
-        function factorial() {
-            let value = parseInt(calcDisplayValue);
-            if (value < 0) { calcDisplayValue = 'Error'; updateCalcDisplay(); return; }
-            let result = 1;
-            for (let i = 2; i <= value; i++) result *= i;
-            addToCalcHistory(`(${value})!`, result);
-            calcCalculation = `(${value})!`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function percentage() {
-            let value = parseFloat(calcDisplayValue);
-            let result = value / 100;
-            addToCalcHistory(`(${value})%`, result);
-            calcCalculation = `(${value})%`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function sin() {
-            let value = parseFloat(calcDisplayValue);
-            let radians = isDegreeMode ? value * Math.PI / 180 : value;
-            let result = Math.sin(radians);
-            addToCalcHistory(`sin(${value}${isDegreeMode ? '°' : ''})`, result);
-            calcCalculation = `sin(${value}${isDegreeMode ? '°' : ''})`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function cos() {
-            let value = parseFloat(calcDisplayValue);
-            let radians = isDegreeMode ? value * Math.PI / 180 : value;
-            let result = Math.cos(radians);
-            addToCalcHistory(`cos(${value}${isDegreeMode ? '°' : ''})`, result);
-            calcCalculation = `cos(${value}${isDegreeMode ? '°' : ''})`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function tan() {
-            let value = parseFloat(calcDisplayValue);
-            let radians = isDegreeMode ? value * Math.PI / 180 : value;
-            let result = Math.tan(radians);
-            addToCalcHistory(`tan(${value}${isDegreeMode ? '°' : ''})`, result);
-            calcCalculation = `tan(${value}${isDegreeMode ? '°' : ''})`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function asin() {
-            let value = parseFloat(calcDisplayValue);
-            if (value < -1 || value > 1) { calcDisplayValue = 'Error'; updateCalcDisplay(); return; }
-            let result = Math.asin(value);
-            result = isDegreeMode ? result * 180 / Math.PI : result;
-            addToCalcHistory(`sin⁻¹(${value})`, result);
-            calcCalculation = `sin⁻¹(${value})`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function acos() {
-            let value = parseFloat(calcDisplayValue);
-            if (value < -1 || value > 1) { calcDisplayValue = 'Error'; updateCalcDisplay(); return; }
-            let result = Math.acos(value);
-            result = isDegreeMode ? result * 180 / Math.PI : result;
-            addToCalcHistory(`cos⁻¹(${value})`, result);
-            calcCalculation = `cos⁻¹(${value})`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function atan() {
-            let value = parseFloat(calcDisplayValue);
-            let result = Math.atan(value);
-            result = isDegreeMode ? result * 180 / Math.PI : result;
-            addToCalcHistory(`tan⁻¹(${value})`, result);
-            calcCalculation = `tan⁻¹(${value})`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function log() {
-            let value = parseFloat(calcDisplayValue);
-            if (value <= 0) { calcDisplayValue = 'Error'; updateCalcDisplay(); return; }
-            let result = Math.log10(value);
-            addToCalcHistory(`log(${value})`, result);
-            calcCalculation = `log(${value})`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function ln() {
-            let value = parseFloat(calcDisplayValue);
-            if (value <= 0) { calcDisplayValue = 'Error'; updateCalcDisplay(); return; }
-            let result = Math.log(value);
-            addToCalcHistory(`ln(${value})`, result);
-            calcCalculation = `ln(${value})`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function exp() {
-            let value = parseFloat(calcDisplayValue);
-            let result = Math.exp(value);
-            addToCalcHistory(`e^(${value})`, result);
-            calcCalculation = `e^(${value})`;
-            calcDisplayValue = result.toString();
-            calcLastResult = result;
-            updateCalcDisplay();
-        }
-        
-        function pi() {
-            calcDisplayValue = Math.PI.toString();
-            calcCalculation = calcDisplayValue;
-            updateCalcDisplay();
-        }
-        
-        function addToCalcHistory(calc, result) {
-            calcHistory.unshift({ calculation: calc, result: result });
-            if (calcHistory.length > 10) calcHistory.pop();
-            updateCalcHistoryDisplay();
-        }
-        
-        function updateCalcHistoryDisplay() {
-            if (!calcHistoryList) return;
-            calcHistoryList.innerHTML = '';
-            calcHistory.forEach(item => {
-                const historyItem = document.createElement('div');
-                historyItem.style.cssText = 'padding: 8px 0; border-bottom: 1px solid #333; display: flex; justify-content: space-between;';
-                historyItem.innerHTML = `
-                    <span style="color: #9e9e9e;">${item.calculation}</span>
-                    <span style="color: #00e676; font-weight: bold;">= ${item.result}</span>
-                `;
-                calcHistoryList.appendChild(historyItem);
+
+            const container = document.getElementById('qrContainer');
+            container.innerHTML = '';
+
+            QRCode.toCanvas(document.createElement('canvas'), input, {
+                color: { dark: color, light: bgColor },
+                width: parseInt(size),
+                margin: 2,
+                scale: 4,
+            }, function (err, canvas) {
+                if (err) {
+                    alert('Error generating QR Code');
+                    return;
+                }
+                container.appendChild(canvas);
+                document.getElementById('downloadBtn').style.display = 'inline-block';
+                document.getElementById('printBtn').style.display = 'inline-block';
             });
         }
-        
-        function toggleCalcHistory() {
-            if (calcHistoryPanel) {
-                calcHistoryPanel.style.display = calcHistoryPanel.style.display === 'block' ? 'none' : 'block';
-                if (calcHistoryPanel.style.display === 'block') updateCalcHistoryDisplay();
-            }
-        }
-        
-        updateCalcDisplay();
 
-        // ========== QR GENERATOR ==========
-        let qrCode;
-        const qrContainer = document.getElementById("qrContainer");
-        const generateBtn = document.getElementById("generateBtn");
-        
-        if (generateBtn) {
-            generateBtn.addEventListener("click", () => {
-                const text = document.getElementById("qrText").value.trim();
-                if (!text) return alert("Please enter text or link!");
-                
-                const logoFile = document.getElementById("logoUpload").files[0];
-                let logoUrl = null;
-                if (logoFile) logoUrl = URL.createObjectURL(logoFile);
-                
-                qrCode = new QRCodeStyling({
-                    width: 300,
-                    height: 300,
-                    data: text,
-                    dotsOptions: {
-                        color: document.getElementById("qrColor").value,
-                        type: document.getElementById("dotStyle").value
-                    },
-                    backgroundOptions: {
-                        color: document.getElementById("bgColor").value
-                    },
-                    cornersSquareOptions: {
-                        type: document.getElementById("eyeStyle").value,
-                        color: document.getElementById("qrColor").value
-                    },
-                    image: logoUrl,
-                    imageOptions: { crossOrigin: "anonymous", margin: 5 }
-                });
-                
-                qrContainer.innerHTML = "";
-                qrCode.append(qrContainer);
-            });
-        }
-        
-        document.getElementById("downloadPng")?.addEventListener("click", () => {
-            if (!qrCode) return alert("Generate QR first!");
-            qrCode.download({ name: "qr_code", extension: "png" });
-        });
-        
-        document.getElementById("downloadJpg")?.addEventListener("click", () => {
-            if (!qrCode) return alert("Generate QR first!");
-            qrCode.download({ name: "qr_code", extension: "jpg" });
-        });
-        
-        document.getElementById("downloadSvg")?.addEventListener("click", () => {
-            if (!qrCode) return alert("Generate QR first!");
-            qrCode.download({ name: "qr_code", extension: "svg" });
-        });
-        
-        document.getElementById("copyLink")?.addEventListener("click", () => {
-            const text = document.getElementById("qrText").value.trim();
-            if (!text) return;
-            navigator.clipboard.writeText(text);
-            alert("Link copied!");
-        });
+        function downloadQRCode() {
+            const canvas = document.querySelector('#qrContainer canvas');
+            if (!canvas) return;
 
-        // ========== TIC TAC TOE ==========
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'qrcode.png';
+            link.click();
+        }
+
+        function printQRCode() {
+            const canvas = document.querySelector('#qrContainer canvas');
+            if (!canvas) return;
+
+            const printWindow = window.open('', '', 'height=400,width=400');
+            printWindow.document.write('<img src="' + canvas.toDataURL() + '" />');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Tic Tac Toe
         let tttBoard = ['', '', '', '', '', '', '', '', ''];
         let tttCurrentPlayer = 'X';
-        let tttGameActive = true;
-        let tttGameMode = 'ai';
-        let tttAiLevel = 'medium';
-        let tttHumanPlayer = 'X';
-        let tttScores = { 'X': 0, 'O': 0, 'ties': 0 };
-        let tttMoveHistory = [];
-        let tttGameHistory = [];
-        
-        let tttCells = [];
-        let tttStatusElement;
-        let tttPlayerXScoreElement;
-        let tttPlayerOScoreElement;
-        let tttTiesScoreElement;
-        let tttMoveListElement;
-        
-        const tttWinningCombinations = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8],
-            [0, 3, 6], [1, 4, 7], [2, 5, 8],
-            [0, 4, 8], [2, 4, 6]
-        ];
-        
-        function initTicTacToeGame() {
-            tttCells = document.querySelectorAll('.ttt-cell');
-            tttStatusElement = document.getElementById('tttStatus');
-            tttPlayerXScoreElement = document.getElementById('tttPlayerXScore');
-            tttPlayerOScoreElement = document.getElementById('tttPlayerOScore');
-            tttTiesScoreElement = document.getElementById('tttTiesScore');
-            tttMoveListElement = document.getElementById('tttMoveList');
-            
-            if (!tttCells.length) return;
-            
-            tttCells.forEach(cell => {
-                cell.addEventListener('click', () => {
-                    const index = parseInt(cell.getAttribute('data-index'));
-                    if (tttGameMode === 'ai') {
-                        if (tttCurrentPlayer === tttHumanPlayer && tttBoard[index] === '' && tttGameActive) {
-                            tttMakeMove(index);
-                        }
-                    } else {
-                        if (tttBoard[index] === '' && tttGameActive) {
-                            tttMakeMove(index);
-                        }
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.ttt-mode-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.ttt-mode-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    tttGameMode = btn.getAttribute('data-mode');
-                    tttResetGame();
-                });
-            });
-            
-            document.querySelectorAll('.ttt-level-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.ttt-level-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    tttAiLevel = btn.getAttribute('data-level');
-                });
-            });
-            
-            document.querySelectorAll('.ttt-player-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.ttt-player-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    tttHumanPlayer = btn.getAttribute('data-player');
-                    tttResetGame();
-                });
-            });
-            
-            tttLoadScores();
-            tttUpdateScoreDisplay();
-            tttUpdateStatus();
+        let gameMode = 'pvp';
+        let playerSymbol = 'X';
+        let aiLevel = 'easy';
+        let playerScore = 0;
+        let drawScore = 0;
+        let opponentScore = 0;
+        let moveHistory = [];
+
+        function setGameMode(mode) {
+            gameMode = mode;
+            document.querySelectorAll('.ttt-mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('aiLevelSection').style.display = mode === 'pvc' ? 'block' : 'none';
+            resetTTT();
         }
-        
-        function tttMakeMove(index) {
-            tttBoard[index] = tttCurrentPlayer;
-            const cell = tttCells[index];
-            cell.textContent = tttCurrentPlayer;
-            cell.classList.add(tttCurrentPlayer.toLowerCase());
-            
-            const row = Math.floor(index / 3) + 1;
-            const col = (index % 3) + 1;
-            tttAddMoveToHistory(`Player ${tttCurrentPlayer} at (${row}, ${col})`);
-            tttGameHistory.push([...tttBoard]);
-            
-            if (tttCheckWin(tttCurrentPlayer)) {
-                tttHandleWin(tttCurrentPlayer);
+
+        function setAILevel(level) {
+            aiLevel = level;
+            document.querySelectorAll('.ttt-level-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function setPlayerSymbol(symbol) {
+            playerSymbol = symbol;
+            document.querySelectorAll('.ttt-player-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            resetTTT();
+        }
+
+        function playMove(index) {
+            if (tttBoard[index] !== '' || !isPlayerTurn()) return;
+
+            tttBoard[index] = playerSymbol;
+            moveHistory.push(`Player: ${index} (${playerSymbol})`);
+            updateBoard();
+
+            if (checkWinner()) {
+                playerScore++;
+                updateScores();
+                setTimeout(resetTTT, 1000);
                 return;
             }
-            
-            if (tttCheckDraw()) {
-                tttHandleDraw();
+
+            if (isBoardFull()) {
+                drawScore++;
+                updateScores();
+                setTimeout(resetTTT, 1000);
                 return;
             }
-            
-            tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
-            tttUpdateStatus();
-            
-            if (tttGameMode === 'ai' && tttCurrentPlayer !== tttHumanPlayer && tttGameActive) {
-                setTimeout(tttMakeAIMove, 500);
-            }
-        }
-        
-        function tttMakeAIMove() {
-            if (!tttGameActive || tttCurrentPlayer === tttHumanPlayer) return;
-            
-            let moveIndex;
-            const availableMoves = tttBoard.reduce((acc, cell, idx) => cell === '' ? [...acc, idx] : acc, []);
-            
-            if (availableMoves.length === 0) return;
-            
-            if (tttAiLevel === 'easy') {
-                moveIndex = availableMoves[Math.floor(Math.random() * availableMoves.length)];
-            } else if (tttAiLevel === 'medium') {
-                moveIndex = Math.random() < 0.7 ? tttGetSmartMove() : availableMoves[Math.floor(Math.random() * availableMoves.length)];
+
+            if (gameMode === 'pvc') {
+                setTimeout(aiMove, 500);
             } else {
-                moveIndex = tttGetSmartMove();
+                tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
+                updateGameStatus();
             }
-            
-            if (moveIndex !== -1) tttMakeMove(moveIndex);
         }
-        
-        function tttGetSmartMove() {
-            const aiPlayer = tttCurrentPlayer;
-            const opponent = aiPlayer === 'X' ? 'O' : 'X';
-            
-            for (let i = 0; i < 9; i++) {
-                if (tttBoard[i] === '') {
-                    tttBoard[i] = aiPlayer;
-                    if (tttCheckWin(aiPlayer)) { tttBoard[i] = ''; return i; }
-                    tttBoard[i] = '';
-                }
+
+        function isPlayerTurn() {
+            return gameMode === 'pvp' ? true : tttCurrentPlayer === playerSymbol;
+        }
+
+        function aiMove() {
+            let availableIndex;
+            if (aiLevel === 'hard') {
+                availableIndex = getBestMove();
+            } else {
+                const available = tttBoard.map((cell, idx) => cell === '' ? idx : null).filter(idx => idx !== null);
+                availableIndex = available[Math.floor(Math.random() * available.length)];
             }
-            
+
+            tttBoard[availableIndex] = tttCurrentPlayer === playerSymbol ? 'O' : 'X';
+            moveHistory.push(`AI: ${availableIndex} (${tttCurrentPlayer === playerSymbol ? 'O' : 'X'})`);
+            updateBoard();
+
+            if (checkWinner()) {
+                opponentScore++;
+                updateScores();
+                setTimeout(resetTTT, 1000);
+                return;
+            }
+
+            if (isBoardFull()) {
+                drawScore++;
+                updateScores();
+                setTimeout(resetTTT, 1000);
+                return;
+            }
+
+            tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
+            updateGameStatus();
+        }
+
+        function getBestMove() {
+            let bestScore = -Infinity;
+            let move;
+
             for (let i = 0; i < 9; i++) {
                 if (tttBoard[i] === '') {
+                    const opponent = tttCurrentPlayer === playerSymbol ? 'O' : 'X';
                     tttBoard[i] = opponent;
-                    if (tttCheckWin(opponent)) { tttBoard[i] = ''; return i; }
+                    const score = minimax(0, false, opponent);
                     tttBoard[i] = '';
+
+                    if (score > bestScore) {
+                        bestScore = score;
+                        move = i;
+                    }
                 }
             }
-            
-            if (tttBoard[4] === '') return 4;
-            
-            const corners = [0, 2, 6, 8];
-            const availableCorners = corners.filter(i => tttBoard[i] === '');
-            if (availableCorners.length > 0) {
-                return availableCorners[Math.floor(Math.random() * availableCorners.length)];
+
+            return move;
+        }
+
+        function minimax(depth, isMaximizing, opponent) {
+            if (checkWinnerForMinimax()) return isMaximizing ? -10 : 10;
+            if (isBoardFull()) return 0;
+
+            if (isMaximizing) {
+                let bestScore = -Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (tttBoard[i] === '') {
+                        tttBoard[i] = opponent;
+                        bestScore = Math.max(bestScore, minimax(depth + 1, false, opponent));
+                        tttBoard[i] = '';
+                    }
+                }
+                return bestScore;
+            } else {
+                let bestScore = Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (tttBoard[i] === '') {
+                        tttBoard[i] = playerSymbol;
+                        bestScore = Math.min(bestScore, minimax(depth + 1, true, opponent));
+                        tttBoard[i] = '';
+                    }
+                }
+                return bestScore;
             }
-            
-            const availableMoves = tttBoard.reduce((acc, cell, idx) => cell === '' ? [...acc, idx] : acc, []);
-            return availableMoves[Math.floor(Math.random() * availableMoves.length)];
         }
-        
-        function tttCheckWin(player) {
-            return tttWinningCombinations.some(combo => combo.every(idx => tttBoard[idx] === player));
+
+        function checkWinner() {
+            const lines = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            for (let line of lines) {
+                const [a, b, c] = line;
+                if (tttBoard[a] && tttBoard[a] === tttBoard[b] && tttBoard[a] === tttBoard[c]) {
+                    updateGameStatus('win');
+                    return true;
+                }
+            }
+            return false;
         }
-        
-        function tttCheckDraw() {
+
+        function checkWinnerForMinimax() {
+            const lines = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            for (let line of lines) {
+                const [a, b, c] = line;
+                if (tttBoard[a] && tttBoard[a] === tttBoard[b] && tttBoard[a] === tttBoard[c]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function isBoardFull() {
             return tttBoard.every(cell => cell !== '');
         }
-        
-        function tttHandleWin(winner) {
-            tttGameActive = false;
-            tttScores[winner]++;
-            tttUpdateScoreDisplay();
-            tttSaveScores();
-            tttStatusElement.textContent = `Player ${winner} Wins! 🎉`;
-        }
-        
-        function tttHandleDraw() {
-            tttGameActive = false;
-            tttScores['ties']++;
-            tttUpdateScoreDisplay();
-            tttSaveScores();
-            tttStatusElement.textContent = 'Game Draw! 😐';
-        }
-        
-        function tttResetGame() {
-            tttBoard = ['', '', '', '', '', '', '', '', ''];
-            tttCurrentPlayer = 'X';
-            tttGameActive = true;
-            tttMoveHistory = [];
-            tttGameHistory = [['', '', '', '', '', '', '', '', '']];
-            
-            tttCells.forEach(cell => {
-                cell.textContent = '';
-                cell.className = 'ttt-cell';
+
+        function updateBoard() {
+            const cells = document.querySelectorAll('.ttt-cell');
+            cells.forEach((cell, idx) => {
+                cell.textContent = tttBoard[idx];
+                cell.classList.remove('x', 'o');
+                if (tttBoard[idx] === 'X') {
+                    cell.classList.add('x');
+                } else if (tttBoard[idx] === 'O') {
+                    cell.classList.add('o');
+                }
             });
-            
-            if (tttMoveListElement) tttMoveListElement.innerHTML = '';
-            tttUpdateStatus();
-            
-            if (tttGameMode === 'ai' && tttHumanPlayer === 'O') {
-                setTimeout(tttMakeAIMove, 500);
-            }
+            updateMoveHistory();
         }
-        
-        function tttSwitchSides() {
-            if (tttGameMode === 'ai') {
-                tttHumanPlayer = tttHumanPlayer === 'X' ? 'O' : 'X';
-                document.querySelectorAll('.ttt-player-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.getAttribute('data-player') === tttHumanPlayer) btn.classList.add('active');
-                });
-                tttResetGame();
-            }
-        }
-        
-        function tttUndoMove() {
-            if (tttGameHistory.length > 1 && tttGameActive) {
-                tttGameHistory.pop();
-                tttBoard = [...tttGameHistory[tttGameHistory.length - 1]];
-                
-                tttCells.forEach((cell, idx) => {
-                    cell.textContent = tttBoard[idx];
-                    cell.className = 'ttt-cell';
-                    if (tttBoard[idx] === 'X') cell.classList.add('x');
-                    if (tttBoard[idx] === 'O') cell.classList.add('o');
-                });
-                
-                tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
-                tttUpdateStatus();
-                
-                if (tttMoveListElement?.lastChild) {
-                    tttMoveListElement.removeChild(tttMoveListElement.lastChild);
-                    tttMoveHistory.pop();
+
+        function updateGameStatus(status = 'normal') {
+            const statusDiv = document.getElementById('gameStatus');
+            if (status === 'win') {
+                if (tttCurrentPlayer === playerSymbol) {
+                    statusDiv.textContent = '🎉 You Won!';
+                } else {
+                    statusDiv.textContent = gameMode === 'pvc' ? '😢 AI Won!' : '🎉 Player 2 Won!';
+                }
+            } else if (isBoardFull()) {
+                statusDiv.textContent = '🤝 Draw!';
+            } else {
+                if (gameMode === 'pvp') {
+                    statusDiv.textContent = `${tttCurrentPlayer}'s Turn`;
+                } else {
+                    statusDiv.textContent = tttCurrentPlayer === playerSymbol ? `Your Turn (${playerSymbol})` : `AI's Turn`;
                 }
             }
         }
-        
-        function tttAddMoveToHistory(moveDescription) {
-            tttMoveHistory.push(moveDescription);
-            if (!tttMoveListElement) return;
-            
-            const moveItem = document.createElement('div');
-            moveItem.classList.add('ttt-move-item');
-            moveItem.classList.add(tttCurrentPlayer === 'X' ? 'x-move' : 'o-move');
-            moveItem.textContent = `Move ${tttMoveHistory.length}: ${moveDescription}`;
-            tttMoveListElement.appendChild(moveItem);
-        }
-        
-        function tttUpdateStatus() {
-            if (!tttGameActive || !tttStatusElement) return;
-            
-            if (tttGameMode === 'ai') {
-                tttStatusElement.textContent = tttCurrentPlayer === tttHumanPlayer ? 'Your Turn' : '🤖 AI Thinking...';
-            } else {
-                tttStatusElement.textContent = `Player ${tttCurrentPlayer}'s Turn`;
-            }
-        }
-        
-        function tttUpdateScoreDisplay() {
-            if (tttPlayerXScoreElement) tttPlayerXScoreElement.textContent = tttScores['X'];
-            if (tttPlayerOScoreElement) tttPlayerOScoreElement.textContent = tttScores['O'];
-            if (tttTiesScoreElement) tttTiesScoreElement.textContent = tttScores['ties'];
-        }
-        
-        function tttSaveScores() {
-            localStorage.setItem('tttScores', JSON.stringify(tttScores));
-        }
-        
-        function tttLoadScores() {
-            const saved = localStorage.getItem('tttScores');
-            if (saved) tttScores = JSON.parse(saved);
+
+        function resetTTT() {
+            tttBoard = ['', '', '', '', '', '', '', '', ''];
+            tttCurrentPlayer = playerSymbol;
+            moveHistory = [];
+            updateBoard();
+            updateGameStatus();
         }
 
-        // ========== PARTICLES JS ==========
-        particlesJS("particles-js", {
-            particles: {
-                number: { value: 50, density: { enable: true, value_area: 800 } },
-                color: { value: "#00e676" },
-                shape: { type: "circle" },
-                opacity: { value: 0.5, random: true },
-                size: { value: 3, random: true },
-                line_linked: { enable: true, distance: 150, color: "#00e676", opacity: 0.2, width: 1 },
-                move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out" }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } }
-            },
-            retina_detect: true
+        function switchSymbol() {
+            playerSymbol = playerSymbol === 'X' ? 'O' : 'X';
+            resetTTT();
+        }
+
+        function updateScores() {
+            document.getElementById('playerScore').textContent = playerScore;
+            document.getElementById('drawScore').textContent = drawScore;
+            document.getElementById('opponentScore').textContent = opponentScore;
+            document.getElementById('oppLabel').textContent = gameMode === 'pvc' ? 'AI' : 'Opponent';
+        }
+
+        function updateMoveHistory() {
+            const historyDiv = document.getElementById('moveHistory');
+            historyDiv.innerHTML = '';
+            moveHistory.forEach(move => {
+                const moveEl = document.createElement('div');
+                moveEl.className = `ttt-move-item ${move.includes('X') ? 'x-move' : 'o-move'}`;
+                moveEl.textContent = move;
+                historyDiv.appendChild(moveEl);
+            });
+            historyDiv.scrollTop = historyDiv.scrollHeight;
+        }
+
+        function resetScores() {
+            playerScore = 0;
+            drawScore = 0;
+            opponentScore = 0;
+            moveHistory = [];
+            tttBoard = ['', '', '', '', '', '', '', '', ''];
+            tttCurrentPlayer = playerSymbol;
+            updateScores();
+            updateBoard();
+            updateGameStatus();
+        }
+
+        // Scroll to Top
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.style.display = 'flex';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
         });
 
-        console.log('✅ Portfolio with Firebase Auth & Cow Error Page loaded successfully!');
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Initialize
+        resetTTT();
+        updateScores();
     </script>
 </body>
 </html>
