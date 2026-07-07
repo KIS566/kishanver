@@ -1657,6 +1657,321 @@
                 width: 20rem;
             }
         }
+
+
+
+
+
+
+        /* ===== PROJECTS PAGE STYLES ===== */
+
+/* Projects Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Project Card */
+.project-card {
+    background: var(--bg-lighter);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(0, 230, 118, 0.1);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(0, 230, 118, 0.2);
+}
+
+/* Project Card Glow Effect */
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 230, 118, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: all 0.5s ease;
+    pointer-events: none;
+}
+
+.project-card:hover::before {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* Project Icon */
+.project-icon {
+    font-size: 2.5rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+    display: inline-block;
+    background: rgba(0, 230, 118, 0.1);
+    padding: 15px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.project-card:hover .project-icon {
+    transform: rotate(10deg) scale(1.1);
+    background: rgba(0, 230, 118, 0.2);
+}
+
+/* Project Title */
+.project-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+/* Project Description */
+.project-description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    min-height: 60px;
+}
+
+/* Project Tech Stack */
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.tech-tag {
+    background: rgba(0, 230, 118, 0.1);
+    color: var(--accent);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border: 1px solid rgba(0, 230, 118, 0.2);
+    transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+    background: var(--accent);
+    color: var(--bg-dark);
+    transform: scale(1.05);
+}
+
+/* Project Links */
+.project-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.project-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: transparent;
+    cursor: pointer;
+}
+
+.project-link-btn:hover {
+    background: var(--accent);
+    color: var(--bg-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 230, 118, 0.3);
+}
+
+.project-link-btn.github {
+    background: #333;
+    border-color: #555;
+    color: #fff;
+}
+
+.project-link-btn.github:hover {
+    background: #6e5494;
+    border-color: #6e5494;
+    box-shadow: 0 5px 15px rgba(110, 84, 148, 0.3);
+}
+
+.project-link-btn.demo {
+    background: var(--accent);
+    color: var(--bg-dark);
+    border-color: var(--accent);
+}
+
+.project-link-btn.demo:hover {
+    background: transparent;
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* Project Status Badge */
+.project-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-completed {
+    background: rgba(0, 230, 118, 0.2);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
+
+.status-wip {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffd54f;
+    border: 1px solid #ffd54f;
+}
+
+.status-upcoming {
+    background: rgba(33, 150, 243, 0.2);
+    color: #4fc3f7;
+    border: 1px solid #4fc3f7;
+}
+
+/* Filter Buttons */
+.project-filters {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(0, 230, 118, 0.2);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+}
+
+.filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+}
+
+.filter-btn.active {
+    background: var(--accent);
+    color: var(--bg-dark);
+    border-color: var(--accent);
+    box-shadow: 0 5px 15px rgba(0, 230, 118, 0.3);
+}
+
+/* Project Stats */
+.project-stats {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.project-stats span {
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    grid-column: 1 / -1;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+    
+    .project-filters {
+        gap: 8px;
+    }
+    
+    .filter-btn {
+        padding: 6px 14px;
+        font-size: 0.75rem;
+    }
+    
+    .project-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-title {
+        font-size: 1.1rem;
+    }
+    
+    .project-description {
+        font-size: 0.85rem;
+    }
+    
+    .project-links {
+        flex-direction: column;
+    }
+    
+    .project-link-btn {
+        justify-content: center;
+    }
+}
+
+
+
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -1686,13 +2001,16 @@
             </div>
             <a href="#" data-page="home"><i class="fas fa-home"></i> Home</a>
             <a href="#" data-page="about"><i class="fas fa-user"></i> About</a>
+           <!-- ✅ NEW - Replace with this -->
+<a href="projects.html" onclick="window.location.href='projects.html'; return false;">
+    <i class="fas fa-folder-open"></i> Projects
+</a>
         </div>
         
         <div class="nav-center">
             <a href="#" data-page="calculator"><i class="fas fa-calculator"></i> Calculator</a>
             <a href="#" data-page="qr-generator"><i class="fas fa-qrcode"></i> QR Generator</a>
             <a href="#" data-page="tictactoe"><i class="fas fa-gamepad"></i> Tic Tac Toe</a>
-            <a href="https://kis566.github.io/Codeshala-Pixel-Game-/" data-page=""><i class="fas fa-gamepad"></i> Pixel Game</a>
         </div>
         
         <div class="nav-right">
@@ -2138,10 +2456,13 @@
             <div class="auth-divider">
                 <span>OR</span>
             </div>
-            
-            <button class="auth-btn google-btn" onclick="loginWithGoogle()">
-                <i class="fab fa-google"></i> Continue with Google
-            </button>
+           <!-- Auth Modal में Google Button ऐसा रखें -->
+<button class="auth-btn google-btn" onclick="loginWithGoogle()" style="display:flex;align-items:center;justify-content:center;gap:10px;">
+    <i class="fab fa-google" style="font-size:1.2rem;"></i> 
+    Continue with Google
+</button>
+
+<!-- ✅ अगर Popup काम न करे तो Redirect button add करें -->
             
             <div id="authError" class="auth-error"></div>
             <div id="authSuccess" class="auth-success"></div>
@@ -2209,14 +2530,13 @@
     <script>
         // ========== FIREBASE CONFIGURATION ==========
         // ⚠️ IMPORTANT: Replace with your own Firebase config!
-   const firebaseConfig = {
-  apiKey: "AIzaSyBva2ac11CEkPsNQcBuIsz0wbNHINGUM6Q",
-  authDomain: "yoga-app-aa13a.firebaseapp.com",
-  databaseURL: "https://yoga-app-aa13a-default-rtdb.firebaseio.com",
-  projectId: "yoga-app-aa13a",
-  storageBucket: "yoga-app-aa13a.firebasestorage.app",
-  messagingSenderId: "479595931859",
-  appId: "1:479595931859:web:297bd00eae60869c044c26"
+       const firebaseConfig = {
+  apiKey: "AIzaSyA5l5looJsgRMlvhCzDn2n8PnIBX2nx0V4",
+  authDomain: "class-8c516.firebaseapp.com",
+  projectId: "class-8c516",
+  storageBucket: "class-8c516.firebasestorage.app",
+  messagingSenderId: "349882277777",
+  appId: "1:349882277777:web:22122ef6d6ed02e7878430"
 };
 
         // Initialize Firebase with error handling
@@ -2249,43 +2569,67 @@
         // ========== AUTH STATE LISTENER ==========
         let currentUser = null;
 
-        if (auth) {
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    currentUser = user;
-                    updateUIForLoggedInUser(user);
-                    console.log('User logged in:', user.email);
-                } else {
-                    currentUser = null;
-                    updateUIForLoggedOutUser();
-                    console.log('User logged out');
-                }
+        // ========== UPDATED AUTH STATE LISTENER ==========
+if (auth) {
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            currentUser = user;
+            updateUIForLoggedInUser(user);
+            console.log('✅ User logged in:', {
+                email: user.email,
+                name: user.displayName,
+                provider: user.providerData[0]?.providerId || 'unknown'
             });
-        }
-
-        function updateUIForLoggedInUser(user) {
-            const authButtons = document.getElementById('authButtons');
-            if (authButtons) {
-                authButtons.innerHTML = `
-                    <div class="user-profile">
-                        <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=00e676&color=000'}" 
-                             alt="${user.displayName || 'User'}" 
-                             class="user-avatar"
-                             onclick="toggleUserDropdown()">
-                        <div class="user-dropdown" id="userDropdown">
-                            <div class="user-info">
-                                <p><strong>${user.displayName || 'User'}</strong></p>
-                                <small>${user.email}</small>
-                            </div>
-                            <button class="logout-btn" onclick="logout()">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </button>
-                        </div>
-                    </div>
-                `;
+            
+            // ✅ Save to localStorage for persistence
+            localStorage.setItem('user', JSON.stringify({
+                email: user.email,
+                name: user.displayName,
+                uid: user.uid
+            }));
+            
+            // Close modal if open
+            const modal = document.getElementById('authModal');
+            if (modal && modal.classList.contains('active')) {
+                setTimeout(() => closeAuthModal(), 1000);
             }
+            
+        } else {
+            currentUser = null;
+            updateUIForLoggedOutUser();
+            console.log('❌ User logged out');
+            localStorage.removeItem('user');
         }
-
+    });
+}
+        function updateUIForLoggedInUser(user) {
+    const authButtons = document.getElementById('authButtons');
+    if (!authButtons) return;
+    
+    const photoURL = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'User')}&background=00e676&color=000&size=128`;
+    
+    authButtons.innerHTML = `
+        <div class="user-profile">
+            <img src="${photoURL}" 
+                 alt="${user.displayName || 'User'}" 
+                 class="user-avatar"
+                 onclick="toggleUserDropdown()"
+                 onerror="this.src='https://ui-avatars.com/api/?name=User&background=00e676&color=000&size=128'">
+            <div class="user-dropdown" id="userDropdown">
+                <div class="user-info">
+                    <p><strong>${user.displayName || 'User'}</strong></p>
+                    <small>${user.email}</small>
+                    <small style="display:block;margin-top:5px;color:var(--accent);">
+                        <i class="fas fa-check-circle"></i> Verified
+                    </small>
+                </div>
+                <button class="logout-btn" onclick="logout()" style="width:100%;margin-top:10px;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    `;
+}
         function updateUIForLoggedOutUser() {
             const authButtons = document.getElementById('authButtons');
             if (authButtons) {
@@ -2371,71 +2715,241 @@
             }
         }
 
-        async function registerWithEmail() {
-            if (!auth) {
-                showAuthError('Firebase not initialized');
-                return;
-            }
-            
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
-            
-            if (!name || !email || !password || !confirmPassword) {
-                showAuthError('Please fill in all fields');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                showAuthError('Passwords do not match');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showAuthError('Password must be at least 6 characters');
-                return;
-            }
-            
-            try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                await userCredential.user.updateProfile({ displayName: name });
-                showAuthSuccess('Registration successful!');
-                setTimeout(() => closeAuthModal(), 1500);
-            } catch (error) {
-                showAuthError(getErrorMessage(error.code));
-                if (error.code === 'auth/network-request-failed') {
-                    setTimeout(() => {
-                        document.getElementById('errorMessage').textContent = 'Network Error!';
-                        showPage('error');
-                    }, 1000);
-                }
-            }
+        // OLD register function (replace karein):
+async function registerWithEmail() {
+    if (!auth) {
+        showAuthError('Firebase not initialized');
+        return;
+    }
+    
+    const name = document.getElementById('registerName').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+    
+    if (!name || !email || !password || !confirmPassword) {
+        showAuthError('Please fill in all fields');
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        showAuthError('Passwords do not match');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showAuthError('Password must be at least 6 characters');
+        return;
+    }
+    
+    try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        await userCredential.user.updateProfile({ displayName: name });
+        showAuthSuccess('Registration successful!');
+        setTimeout(() => closeAuthModal(), 1500);
+    } catch (error) {
+        showAuthError(getErrorMessage(error.code));
+        if (error.code === 'auth/network-request-failed') {
+            setTimeout(() => {
+                document.getElementById('errorMessage').textContent = 'Network Error!';
+                showPage('error');
+            }, 1000);
         }
+    }
+}
 
-        async function loginWithGoogle() {
-            if (!auth) {
-                showAuthError('Firebase not initialized');
-                return;
+// ✅ NEW CODE (ye paste karein):
+async function registerWithEmail() {
+    if (!auth) {
+        showAuthError('Firebase not initialized');
+        return;
+    }
+    
+    const name = document.getElementById('registerName').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+    
+    // Validation
+    if (!name || !email || !password || !confirmPassword) {
+        showAuthError('⚠️ Please fill in all fields');
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        showAuthError('⚠️ Passwords do not match');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showAuthError('⚠️ Password must be at least 6 characters');
+        return;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showAuthError('⚠️ Please enter a valid email address');
+        return;
+    }
+    
+    try {
+        // ✅ Clear previous errors
+        clearAuthMessages();
+        showAuthSuccess('⏳ Creating account...');
+        
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        await userCredential.user.updateProfile({ displayName: name });
+        
+        showAuthSuccess('✅ Registration successful! Welcome ' + name + '! 🎉');
+        setTimeout(() => {
+            closeAuthModal();
+            // Reset form
+            document.getElementById('registerName').value = '';
+            document.getElementById('registerEmail').value = '';
+            document.getElementById('registerPassword').value = '';
+            document.getElementById('registerConfirmPassword').value = '';
+        }, 2000);
+    } catch (error) {
+        console.error('❌ Registration error:', error);
+        showAuthError(getErrorMessage(error.code));
+        
+        if (error.code === 'auth/network-request-failed') {
+            setTimeout(() => {
+                document.getElementById('errorMessage').textContent = 'Network Error! Please check your connection.';
+                showPage('error');
+            }, 1000);
+        }
+    }
+}
+      // ========== COMPLETE GOOGLE LOGIN - WORKING ==========
+async function loginWithGoogle() {
+    if (!auth) {
+        showAuthError('⚠️ Firebase not initialized');
+        return;
+    }
+    
+    // Show loading state
+    const googleBtn = document.querySelector('.google-btn');
+    if (googleBtn) {
+        googleBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+        googleBtn.disabled = true;
+        googleBtn.style.opacity = '0.7';
+    }
+    
+    // Google Provider setup
+    const provider = new firebase.auth.GoogleAuthProvider();
+    
+    // ✅ CRUCIAL: Add these scopes for better user info
+    provider.addScope('profile');
+    provider.addScope('email');
+    
+    // ✅ Force account selection popup
+    provider.setCustomParameters({
+        prompt: 'select_account'
+    });
+    
+    try {
+        console.log('🔄 Attempting Google login...');
+        
+        // Try popup first
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+        
+        console.log('✅ Google Login SUCCESS!', {
+            email: user.email,
+            name: user.displayName,
+            uid: user.uid
+        });
+        
+        // Success message
+        showAuthSuccess(`✅ Welcome ${user.displayName || 'User'}! 🎉`);
+        
+        // Reset button
+        if (googleBtn) {
+            googleBtn.innerHTML = '<i class="fab fa-google"></i> Continue with Google';
+            googleBtn.disabled = false;
+            googleBtn.style.opacity = '1';
+        }
+        
+        // Close modal after delay
+        setTimeout(() => {
+            closeAuthModal();
+            // Show toast notification
+            if (typeof showToast === 'function') {
+                showToast(`Welcome ${user.displayName || 'User'}! 🎉`);
             }
-            
-            const provider = new firebase.auth.GoogleAuthProvider();
-            try {
-                await auth.signInWithPopup(provider);
-                showAuthSuccess('Login successful!');
-                setTimeout(() => closeAuthModal(), 1500);
-            } catch (error) {
-                showAuthError(getErrorMessage(error.code));
-                if (error.code === 'auth/network-request-failed' || error.code === 'auth/popup-closed-by-user') {
-                    if (error.code === 'auth/network-request-failed') {
-                        setTimeout(() => {
-                            document.getElementById('errorMessage').textContent = 'Network Error!';
-                            showPage('error');
-                        }, 1000);
-                    }
-                }
+        }, 1500);
+        
+    } catch (error) {
+        console.error('❌ Google Login Error:', error);
+        console.error('Error Code:', error.code);
+        console.error('Error Message:', error.message);
+        
+        // Reset button
+        if (googleBtn) {
+            googleBtn.innerHTML = '<i class="fab fa-google"></i> Continue with Google';
+            googleBtn.disabled = false;
+            googleBtn.style.opacity = '1';
+        }
+        
+        // Handle specific errors
+        if (error.code === 'auth/popup-closed-by-user') {
+            showAuthError('⚠️ Login cancelled. Please try again.');
+        } else if (error.code === 'auth/popup-blocked') {
+            showAuthError('⚠️ Popup blocked! Please allow popups for this site.');
+            alert('🔴 Please allow popups for this website:\n\n1. Click on the popup-blocked icon in address bar\n2. Select "Always allow popups"\n3. Try again');
+        } else if (error.code === 'auth/network-request-failed') {
+            showAuthError('⚠️ Network error! Check your internet connection.');
+            setTimeout(() => {
+                document.getElementById('errorMessage').textContent = 'Network Error! Please check your connection.';
+                showPage('error');
+            }, 1000);
+        } else if (error.code === 'auth/unauthorized-domain') {
+            showAuthError('⚠️ This domain is not authorized for sign-in.');
+            alert('🔴 Domain not authorized!\n\nPlease add this domain in Firebase Console:\nAuthentication → Settings → Authorized domains');
+        } else {
+            showAuthError(getErrorMessage(error.code));
+        }
+    }
+}
+
+// ========== ALTERNATIVE: Redirect Method (अगर Popup काम न करे) ==========
+async function loginWithGoogleRedirect() {
+    if (!auth) {
+        showAuthError('⚠️ Firebase not initialized');
+        return;
+    }
+    
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('profile');
+    provider.addScope('email');
+    
+    try {
+        await auth.signInWithRedirect(provider);
+    } catch (error) {
+        console.error('❌ Redirect Error:', error);
+        showAuthError(getErrorMessage(error.code));
+    }
+}
+
+// ========== Handle Redirect Result (Redirect method के लिए) ==========
+if (auth) {
+    // अगर redirect method use कर रहे हैं
+    auth.getRedirectResult().then((result) => {
+        if (result.user) {
+            const user = result.user;
+            console.log('✅ Redirect Login Success:', user.email);
+            updateUIForLoggedInUser(user);
+            if (typeof showToast === 'function') {
+                showToast(`Welcome ${user.displayName || 'User'}! 🎉`);
             }
         }
+    }).catch((error) => {
+        console.error('❌ Redirect Error:', error);
+    });
+}
+
 
         async function logout() {
             try {
